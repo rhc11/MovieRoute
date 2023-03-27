@@ -1,15 +1,15 @@
 import { Handler, RequestHandler } from "express"
 import {
-  getParadas,
-  getParada,
-  createParada,
-  updateParada,
-  deleteParada,
-} from "../core/paradas"
-import { ParadaModelInput } from "../models/paradas"
+  getNotificaciones,
+  getNotificacion,
+  createNotificacion,
+  updateNotificacion,
+  deleteNotificacion,
+} from "../core/notificaciones"
+import { NotificacionModelInput } from "../models/notificaciones"
 
-export const getParadasController: Handler = async (_req, res) => {
-  const response = await getParadas()
+export const getNotificacionesController: Handler = async (_req, res) => {
+  const response = await getNotificaciones()
 
   if (!response) {
     return res.status(404).send()
@@ -18,11 +18,11 @@ export const getParadasController: Handler = async (_req, res) => {
   return res.status(200).json(response)
 }
 
-export const getParadaController: RequestHandler<{ id: string }> = async (
+export const getNotificacionController: RequestHandler<{ id: string }> = async (
   req,
   res
 ) => {
-  const response = await getParada(req.params.id)
+  const response = await getNotificacion(req.params.id)
 
   if (!response) {
     return res.status(404).send()
@@ -31,14 +31,14 @@ export const getParadaController: RequestHandler<{ id: string }> = async (
   return res.status(200).json(response)
 }
 
-export const createParadaController: Handler = async (req, res) => {
-  const validatedBody = ParadaModelInput.safeParse(req.body)
+export const createNotificacionController: Handler = async (req, res) => {
+  const validatedBody = NotificacionModelInput.safeParse(req.body)
 
   if (!validatedBody.success) {
     return res.status(400).send(validatedBody.error.issues)
   }
 
-  const response = await createParada(validatedBody.data)
+  const response = await createNotificacion(validatedBody.data)
 
   if (!response) {
     return res.status(404).send()
@@ -47,17 +47,17 @@ export const createParadaController: Handler = async (req, res) => {
   return res.status(200).json(response)
 }
 
-export const updateParadaController: RequestHandler<{ id: string }> = async (
+export const updateNotificacionController: RequestHandler<{ id: string }> = async (
   req,
   res
 ) => {
-  const validatedBody = ParadaModelInput.safeParse(req.body)
+  const validatedBody = NotificacionModelInput.safeParse(req.body)
 
   if (!validatedBody.success) {
     return res.status(400).send(validatedBody.error.issues)
   }
 
-  const response = await updateParada(validatedBody.data, req.params.id)
+  const response = await updateNotificacion(validatedBody.data, req.params.id)
 
   if (!response) {
     return res.status(404).send()
@@ -66,11 +66,11 @@ export const updateParadaController: RequestHandler<{ id: string }> = async (
   return res.status(200).json(response)
 }
 
-export const deleteParadaController: RequestHandler<{ id: string }> = async (
+export const deleteNotificacionController: RequestHandler<{ id: string }> = async (
   req,
   res
 ) => {
-  const response = await deleteParada(req.params.id)
+  const response = await deleteNotificacion(req.params.id)
 
   if (!response) {
     return res.status(404).send()

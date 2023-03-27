@@ -1,68 +1,68 @@
 import { PrismaClient } from "@prisma/client"
-import { ParadaModelInput } from "../models/paradas"
+import { NotificacionModelInput } from "../models/notificaciones"
 
 const prisma = new PrismaClient()
 
-export const getParadas = async () => {
+export const getNotificaciones = async () => {
   try {
-    const paradas = await prisma.parada.findMany()
+    const notificaciones = await prisma.notificacion.findMany()
 
-    return paradas
+    return notificaciones
   } catch (error) {
     throw error
   }
 }
 
-export const getParada = async (id: string) => {
+export const getNotificacion = async (id: string) => {
   try {
-    const parada = await prisma.parada.findUnique({
+    const notificacion = await prisma.notificacion.findUnique({
       where: {
         id,
       },
     })
 
-    return parada
+    return notificacion
   } catch (error) {
     throw error
   }
 }
 
-export const createParada = async (paradaInput: ParadaModelInput) => {
+export const createNotificacion = async (notificacionInput: NotificacionModelInput) => {
   try {
-    const parada = await prisma.parada.create({
-      data: paradaInput
+    const notificacion = await prisma.notificacion.create({
+      data: notificacionInput
     })
 
-    return parada
+    return notificacion
   } catch (error) {
     throw error
   }
 }
 
-export const updateParada = async (parada: ParadaModelInput, id: string) => {
+export const updateNotificacion = async (notificacion: NotificacionModelInput, id: string) => {
   try {
-    const paradaUpdated = await prisma.parada.update({
+    const notificacionUpdated = await prisma.notificacion.update({
       where: {
         id
       },
-      data: parada
+      data: notificacion
     })
 
-    return paradaUpdated
+    return notificacionUpdated
   } catch (error) {
     throw error
   }
 }
 
-export const deleteParada = async (id: string) => {
+export const deleteNotificacion = async (id: string) => {
   try {
-    const parada = await prisma.parada.delete({
+    const notificacion = await prisma.notificacion.delete({
       where: {
         id,
       },
     })
 
-    return parada
+    return notificacion
   } catch (error) {
     throw error
   }
