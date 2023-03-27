@@ -1,10 +1,10 @@
 import { Router } from 'express'
-import { getParadasController, getParadaController, createParadaController, updateParadaController, deleteParadaController } from '../controllers/paradas'
+import { getNotificacionesController, getNotificacionController, createNotificacionController, updateNotificacionController, deleteNotificacionController } from '../controllers/notificaciones'
 import { verifyToken } from "../middleware/validate-token"
 
-export const paradasRouter = Router()
-    .get('/', getParadasController)
-    .get('/:id', getParadaController)
-    .post('/', verifyToken, createParadaController)
-    .patch('/:id', verifyToken, updateParadaController)
-    .delete('/:id', verifyToken, deleteParadaController)
+export const notificacionesRouter = Router()
+    .get('/', getNotificacionesController)
+    .get('/:id', getNotificacionController)
+    .post('/', verifyToken, createNotificacionController)
+    .patch('/:id', verifyToken, updateNotificacionController)
+    .delete('/:id', verifyToken, deleteNotificacionController)
