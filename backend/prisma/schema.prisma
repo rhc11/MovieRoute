@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = "mongodb+srv://usuario_mr:M-.vY%25%40wmGnAD2M@movieroute.pyh7quh.mongodb.net/test"
+}
+
+model Usuario {
+  id              String     @id @default(auto())  @map("_id") @db.ObjectId
+  email           String     @unique
+  password        String
+  rol             String
+  nombre          String
+  not_modo        Boolean
+  notificaciones  Notificacion[]
+  completados     Completado[]
+  rutas           UsuarioRuta[]
+  favoritos       UsuarioFavorito[]
+}
+
+model Ruta {
+  id           String     @id @default(auto())  @map("_id") @db.ObjectId
+  titulo       String
+  descripcion  String
+  localizacion String
+  paradas      RutaParada[]
+  usuarios     UsuarioRuta[]
+  favoritos    UsuarioFavorito[]
+}
+
+type Coordenadas {
+  latitud      String
+  longitud     String
+}
+
+model Parada {
+  id           String     @id @default(auto())  @map("_id") @db.ObjectId
+  titulo       String
+  descripcion  String
+  direccion    String
+  coordenadas  Coordenadas
+  imagenes     String[]
+  obras        String[]
+  completados  Completado[]
+  rutas        RutaParada[]
+}
+
+model UsuarioRuta {
+  id           String     @id @default(auto())  @map("_id") @db.ObjectId
+  usuario      Usuario    @relation(fields: [usuarioEmail], references: [email])
+  usuarioEmail String
+  ruta         Ruta       @relation(fields: [rutaId], references: [id])
+  rutaId       String     @db.ObjectId
+
+  @@unique([usuarioEmail, rutaId])
+}
+
+model UsuarioFavorito {
+  id           String     @id @default(auto())  @map("_id") @db.ObjectId
+  usuario      Usuario    @relation(fields: [usuarioEmail], references: [email])
+  usuarioEmail String
+  ruta         Ruta       @relation(fields: [rutaId], references: [id])
+  rutaId       String     @db.ObjectId
+
+  @@unique([usuarioEmail, rutaId])
+}
+
+model RutaParada {
+  id           String     @id @default(auto())  @map("_id") @db.ObjectId
+  ruta         Ruta       @relation(fields: [rutaId], references: [id])
+  rutaId       String     @db.ObjectId
+  parada       Parada     @relation(fields: [paradaId], references: [id])
+  paradaId     String     @db.ObjectId
+
+  @@unique([rutaId, paradaId])
+}
+
+model Completado {
+  id           String     @id @default(auto())  @map("_id") @db.ObjectId
+  foto         String
+  usuario      Usuario    @relation(fields: [usuarioEmail], references: [email])
+  usuarioEmail String
+  parada       Parada     @relation(fields: [paradaId], references: [id ] ) 
+  paradaId     String     @db.ObjectId
+
+  @@unique([usuarioEmail, paradaId])
+
+}
+
+model Notificacion {
+  id           String     @id @default(auto())  @map("_id") @db.ObjectId
+  texto        String
+  usuario      Usuario    @relation(fields: [usuarioEmail], references: [email])
+  usuarioEmail String
+}
+
