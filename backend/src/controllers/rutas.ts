@@ -6,7 +6,7 @@ import {
   updateRuta,
   deleteRuta,
 } from "../core/rutas"
-import { RutaModel, RutaModelInput } from "../models/rutas"
+import { RutaModelInput } from "../models/rutas"
 
 export const getRutasController: Handler = async (_req, res) => {
   const response = await getRutas()

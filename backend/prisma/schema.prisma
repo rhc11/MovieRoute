@@ -32,7 +32,7 @@ model Ruta {
 
 type Coordenadas {
   latitud      String
-  longitud     String
+  altitud      String
 }
 
 model Parada {
