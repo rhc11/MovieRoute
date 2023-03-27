@@ -1,22 +1,26 @@
-import { jwt } from "jsonwebtoken"
+import { Handler } from "express"
+import * as jwt from "jsonwebtoken"
 
-export const verifyToken = (req, res, next) => {
-    const token = req.header('token')
+export const verifyToken: Handler = (req, res, next) => {
+  try {
+    const token = req.header("token")
 
     // Check if token exists
-    if(!token) return res.status(401).json({error: 'Acceso denegado'})
-
-    try {
-        // Verify token using the provided secret key
-        const verified = jwt.verify(token, process.env.TOKEN_SECRET)
-
-         // Store user data in the request object
-        req.user = verified
-
-        // Move to the next middleware
-        next()
-    } catch (error){
-        // Handle errors related to token verification
-        res.status(400).json({error: 'Token no valido, acceso denegado'})
+    if (!token) {
+      throw new Error("Acceso denegado")
     }
+
+    // Verify token using the provided secret key
+    const verified = jwt.verify(token, process.env.TOKEN_SECRET || '')
+
+    if (!verified) {
+        throw new Error("Acceso denegado")
+    }
+
+    // Move to the next middleware
+    next()
+  } catch (error) {
+    // Handle errors related to token verification
+    res.status(400).json(error)
+  }
 }

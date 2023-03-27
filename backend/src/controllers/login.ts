@@ -1,4 +1,4 @@
-import { Handler, RequestHandler } from "express"
+import { Handler } from "express"
 import { login } from "../core/login"
 
 import { LoginInput } from "../models/usuarios"

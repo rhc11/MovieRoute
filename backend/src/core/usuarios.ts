@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 import { UsuarioModelInput } from "../models/usuarios"
-import { bcrypt } from "bcrypt"
+import * as bcrypt from "bcrypt"
 
 const prisma = new PrismaClient()
 

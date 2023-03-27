@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import { LoginInput } from "../models/usuarios"
-import { bcrypt } from "bcrypt"
-import { jwt } from "jsonwebtoken"
+import * as bcrypt  from "bcrypt"
+import * as jwt from "jsonwebtoken"
 
 const prisma = new PrismaClient()
 
@@ -31,7 +31,7 @@ export const login = async (loginInput: LoginInput) => {
         rol: usuario.rol,
         nombre: usuario.nombre,
       },
-      process.env.TOKEN_SECRET, {
+      process.env.TOKEN_SECRET || '', {
         expiresIn: '1y'
       }
     )
