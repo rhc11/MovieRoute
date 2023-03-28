@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root:root {
+    --adm-color-primary: #FFCD6B;
+    --adm-color-warning: black;
+    --adm-color-danger: black;
+    --adm-color-success: #FFCD6B;
+  }
+
+  .adm-button:not(.adm-button-default) {
+    --text-color: black;
+    --background-color: #FFCD6B;
+  }

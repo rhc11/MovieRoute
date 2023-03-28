@@ -1,9 +1,10 @@
-function App() {
+import { Login } from "./pages/login"
+
+export const App = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">Hola crack!</h1>
-    </div>
+    
+ 
+      <Login />
+  
   )
 }
-
-export default App
