@@ -10,7 +10,6 @@ setDefaultConfig({
   locale: esES,
 })
 
-// Define a type for the form input values
 type FormValues = {
   email: string
   password: string
@@ -32,13 +31,13 @@ export const Login = () => {
     try {
       // Send a POST request to the server with email and password data
       const response: responseLogin = await axios.post(
-        "http://localhost:8080/login",
+        `http://localhost:8080/login`,
         {
           email,
           password,
         }
       )
-
+      // Set the token in localStorage
       if (response.data) {
         localStorage.setItem(AccessTokenKey, response.data.token)
       }
@@ -49,7 +48,6 @@ export const Login = () => {
         title: "¡Ups! Vuelve a introduccir tu usuario y contraseña",
         closeOnMaskClick: true,
       })
-      console.log(error)
     }
   }
 
