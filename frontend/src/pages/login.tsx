@@ -15,7 +15,7 @@ type FormValues = {
   password: string
 }
 
-type responseLogin = {
+type ResponseLogin = {
   data: {
     token: string
   }
@@ -30,7 +30,7 @@ export const Login = () => {
   const onFinish = async ({ email, password }: FormValues) => {
     try {
       // Send a POST request to the server with email and password data
-      const response: responseLogin = await axios.post(
+      const response: ResponseLogin = await axios.post(
         `http://localhost:8080/login`,
         {
           email,
