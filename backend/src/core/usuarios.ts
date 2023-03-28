@@ -35,7 +35,9 @@ export const createUsuario = async (usuarioInput: UsuarioModelInput) => {
 
   const newUser = {
     ...usuarioInput,
-    password
+    password,
+    rol: 'USER',
+    not_modo: true
   }
 
   try {

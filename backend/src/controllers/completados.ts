@@ -47,10 +47,9 @@ export const createCompletadoController: Handler = async (req, res) => {
   return res.status(200).json(response)
 }
 
-export const updateCompletadoController: RequestHandler<{ id: string }> = async (
-  req,
-  res
-) => {
+export const updateCompletadoController: RequestHandler<{
+  id: string
+}> = async (req, res) => {
   const validatedBody = CompletadoModelInput.safeParse(req.body)
 
   if (!validatedBody.success) {
@@ -66,10 +65,9 @@ export const updateCompletadoController: RequestHandler<{ id: string }> = async 
   return res.status(200).json(response)
 }
 
-export const deleteCompletadoController: RequestHandler<{ id: string }> = async (
-  req,
-  res
-) => {
+export const deleteCompletadoController: RequestHandler<{
+  id: string
+}> = async (req, res) => {
   const response = await deleteCompletado(req.params.id)
 
   if (!response) {

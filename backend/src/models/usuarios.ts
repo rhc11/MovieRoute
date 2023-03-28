@@ -11,7 +11,7 @@ export const UsuarioModel = z.object({
 
 export type UsuarioModel = z.infer<typeof UsuarioModel>
 
-export const UsuarioModelInput = UsuarioModel.omit({ id: true })
+export const UsuarioModelInput = UsuarioModel.omit({ id: true, rol: true, not_modo: true })
 
 export type UsuarioModelInput = z.infer<typeof UsuarioModelInput>
 
