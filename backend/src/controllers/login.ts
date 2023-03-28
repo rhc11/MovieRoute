@@ -17,7 +17,6 @@ export const loginController: Handler = async (req, res) => {
   }
 
   return res.status(200).header("auth-token", token).json({
-    error: null,
     data: { token },
     message: "Bienvenido",
   })
