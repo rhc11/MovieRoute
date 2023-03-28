@@ -45,7 +45,7 @@ export const Login = () => {
       // Show a modal dialog with an error message
       Modal.alert({
         header: <ExclamationCircleFill className="text-6xl" />,
-        title: "¡Ups! Vuelve a introduccir tu usuario y contraseña",
+        title: "¡Ups! Usuario y/o contraseña erroneo",
         closeOnMaskClick: true,
       })
     }
