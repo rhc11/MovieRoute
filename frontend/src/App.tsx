@@ -1,11 +1,8 @@
 
-import { Register } from './pages/register'
+import { Router } from './Router'
 
 export const App = () => {
   return (
-    
- 
-      <Register />
-  
+    <Router />
   )
 }

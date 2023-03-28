@@ -3,6 +3,7 @@ import axios from "axios"
 import { ExclamationCircleFill } from "antd-mobile-icons"
 import { setDefaultConfig } from "antd-mobile"
 import esES from "antd-mobile/es/locales/en-US"
+import { Link } from "react-router-dom"
 
 // Set lenguage in Ant Design Modal
 setDefaultConfig({
@@ -37,7 +38,7 @@ export const Login = () => {
           password,
         }
       )
-      
+
       if (response.data) {
         localStorage.setItem(AccessTokenKey, response.data.token)
       }
@@ -96,12 +97,14 @@ export const Login = () => {
         </Form.Item>
       </Form>
 
-      <Button
-        size="large"
-        className="bg-primary text-black border-black w-full rounded-none border-x-0 mt-12"
-      >
-        Registrarse
-      </Button>
+      <Link to="/register" className="w-full">
+        <Button
+          size="large"
+          className="bg-primary text-black border-black w-full rounded-none border-x-0 mt-12"
+        >
+          Registrarse
+        </Button>
+      </Link>
     </div>
   )
 }
