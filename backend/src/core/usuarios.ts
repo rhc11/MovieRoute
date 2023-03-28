@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client"
 import { UsuarioModelInput } from "../models/usuarios"
 import * as bcrypt from "bcrypt"
+import { createToken } from "../helpers/createToken"
 
 const prisma = new PrismaClient()
 
@@ -45,7 +46,9 @@ export const createUsuario = async (usuarioInput: UsuarioModelInput) => {
       data: newUser
     })
 
-    return usuario
+    const token = await createToken(usuario)
+
+    return { ...usuario, token}
   } catch (error) {
     throw error
   }

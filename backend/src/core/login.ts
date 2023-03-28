@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client"
 import { LoginInput } from "../models/usuarios"
 import * as bcrypt  from "bcrypt"
 import * as jwt from "jsonwebtoken"
+import { createToken } from "../helpers/createToken"
 
 const prisma = new PrismaClient()
 
@@ -24,19 +25,7 @@ export const login = async (loginInput: LoginInput) => {
 
     if (!validPassword) return null
 
-    // If the password is valid, generate a JWT token
-    const token = jwt.sign(
-      {
-        email: usuario.email,
-        rol: usuario.rol,
-        nombre: usuario.nombre,
-      },
-      process.env.TOKEN_SECRET || '', {
-        expiresIn: '1y'
-      }
-    )
-
-    return token
+    return await createToken(usuario)
   } catch (error) {
     throw error
   }

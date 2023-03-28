@@ -1,10 +1,11 @@
-import { Login } from "./pages/login"
+
+import { Register } from './pages/register'
 
 export const App = () => {
   return (
     
  
-      <Login />
+      <Register />
   
   )
 }

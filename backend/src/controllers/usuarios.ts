@@ -1,4 +1,5 @@
 import { Handler, RequestHandler } from "express"
+import { login } from "../core/login"
 import {
   getUsuarios,
   getUsuario,

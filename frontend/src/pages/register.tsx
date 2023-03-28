@@ -3,56 +3,52 @@ import axios from "axios"
 import { ExclamationCircleFill } from "antd-mobile-icons"
 import { setDefaultConfig } from "antd-mobile"
 import esES from "antd-mobile/es/locales/en-US"
+import { AccessTokenKey } from "./login"
 
 // Set lenguage in Ant Design Modal
 setDefaultConfig({
   locale: esES,
 })
 
-// Define a type for the form input values
 type FormValues = {
+  nombre: string
   email: string
   password: string
+  password2: string
 }
 
-type responseLogin = {
-  data: {
-    token: string
-  }
-  message: string
-}
-
-export const AccessTokenKey = "accessToken"
-
-// Define the onFinish function to handle form submission
-export const Login = () => {
+export const Register = () => {
   // Define the onFinish function to handle form submission
-  const onFinish = async ({ email, password }: FormValues) => {
+  const onFinish = async ({
+    nombre,
+    email,
+    password,
+    password2,
+  }: FormValues) => {
     try {
+      if (password !== password2)
+        throw new Error("Las contraseñas no coinciden")
+
       // Send a POST request to the server with email and password data
-      const response: responseLogin = await axios.post(
-        "http://localhost:8080/login",
-        {
-          email,
-          password,
-        }
-      )
-      
-      if (response.data) {
+      const response = await axios.post("http://localhost:8080/usuario/", {
+        email,
+        password,
+        nombre
+      })
+      if(response.data) {
         localStorage.setItem(AccessTokenKey, response.data.token)
       }
     } catch (error) {
       // Show a modal dialog with an error message
       Modal.alert({
         header: <ExclamationCircleFill className="text-6xl" />,
-        title: "¡Ups! Vuelve a introduccir tu usuario y contraseña",
+        title: "¡Ups! Vuelve a introduccir tus datos",
         closeOnMaskClick: true,
       })
       console.log(error)
     }
   }
 
-  // Render the Login component with a form and registration button
   return (
     <div className="h-screen w-screen bg-primary flex flex-col justify-center items-center">
       <img
@@ -72,10 +68,16 @@ export const Login = () => {
             size="large"
             className="bg-black text-white border-black rounded-none absolute w-screen left-0"
           >
-            Iniciar sesión
+            Registrarse
           </Button>
         }
       >
+        <Form.Item
+          name="nombre"
+          rules={[{ required: true, message: "Introduce el nombre" }]}
+        >
+          <Input placeholder="Nombre" clearable={true} />
+        </Form.Item>
         <Form.Item
           name="email"
           rules={[
@@ -94,13 +96,23 @@ export const Login = () => {
         >
           <Input type="password" placeholder="Contraseña" clearable={true} />
         </Form.Item>
+        <Form.Item
+          name="password2"
+          rules={[{ required: true, message: "Introduce la contraseña" }]}
+        >
+          <Input
+            type="password"
+            placeholder="Repetir contraseña"
+            clearable={true}
+          />
+        </Form.Item>
       </Form>
 
       <Button
         size="large"
         className="bg-primary text-black border-black w-full rounded-none border-x-0 mt-12"
       >
-        Registrarse
+        Iniciar sesión
       </Button>
     </div>
   )
