@@ -15,7 +15,6 @@ export const Home = () => {
     try {
       const response = await axios.get(`http://localhost:8080/ruta`, { params: { skip } })
       const rutasArray: Array<Ruta> = response.data
-      console.log(rutasArray)
       setData((prevData) => [...prevData, ...rutasArray])    
     } catch (error) {
       console.error("Error al obtener las rutas:", error)
@@ -46,7 +45,7 @@ export const Home = () => {
       />
 
       <div
-        className="w-full h-full mt-14 mb-12 overflow-y-scroll"
+        className="w-full h-full mt-14 mb-12 overflow-y-scroll hide-scrollbar"
         ref={containerRef}
         onScroll={handleScroll}
       >
