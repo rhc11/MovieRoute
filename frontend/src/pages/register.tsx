@@ -4,7 +4,7 @@ import { ExclamationCircleFill } from "antd-mobile-icons"
 import { setDefaultConfig } from "antd-mobile"
 import esES from "antd-mobile/es/locales/en-US"
 import { AccessTokenKey } from "./login"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 // Set lenguage in Ant Design Modal
 setDefaultConfig({
@@ -19,6 +19,7 @@ type FormValues = {
 }
 
 export const Register = () => {
+  const navigate = useNavigate()
   // Define the onFinish function to handle form submission
   const onFinish = async ({
     nombre,
@@ -27,9 +28,9 @@ export const Register = () => {
     password2,
   }: FormValues) => {
     try {
-      if (password !== password2)
+      if (password !== password2) {
         throw new Error("Las contraseñas no coinciden")
-
+      }
       // Send a POST request to the server with email and password data
       const response = await axios.post("http://localhost:8080/usuario/", {
         email,
@@ -38,6 +39,7 @@ export const Register = () => {
       })
       if (response.data) {
         localStorage.setItem(AccessTokenKey, response.data.token)
+        navigate("/home")
       }
     } catch (error) {
       // Show a modal dialog with an error message

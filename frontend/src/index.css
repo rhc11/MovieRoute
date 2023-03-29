@@ -13,3 +13,7 @@
   --text-color: black;
   --background-color: #ffcd6b;
 }
+
+body{
+  font-family: 'Gothic A1', sans-serif;
+}

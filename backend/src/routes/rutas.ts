@@ -5,6 +5,6 @@ import { verifyToken } from "../middleware/validate-token"
 export const rutasRouter = Router()
     .get('/', getRutasController)
     .get('/:id', getRutaController)
-    .post('/', verifyToken, createRutaController)
+    .post('/', createRutaController)
     .patch('/:id', verifyToken, updateRutaController)
     .delete('/:id', verifyToken, deleteRutaController)

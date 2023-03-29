@@ -3,7 +3,7 @@ import axios from "axios"
 import { ExclamationCircleFill } from "antd-mobile-icons"
 import { setDefaultConfig } from "antd-mobile"
 import esES from "antd-mobile/es/locales/en-US"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 // Set lenguage in Ant Design Modal
 setDefaultConfig({
@@ -26,6 +26,7 @@ export const AccessTokenKey = "accessToken"
 
 // Define the onFinish function to handle form submission
 export const Login = () => {
+  const navigate = useNavigate()
   // Define the onFinish function to handle form submission
   const onFinish = async ({ email, password }: FormValues) => {
     try {
@@ -40,6 +41,7 @@ export const Login = () => {
       // Set the token in localStorage
       if (response.data) {
         localStorage.setItem(AccessTokenKey, response.data.token)
+        navigate('/home')
       }
     } catch (error) {
       // Show a modal dialog with an error message

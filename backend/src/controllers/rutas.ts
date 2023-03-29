@@ -8,8 +8,10 @@ import {
 } from "../core/rutas"
 import { RutaModelInput } from "../models/rutas"
 
-export const getRutasController: Handler = async (_req, res) => {
-  const response = await getRutas()
+export const getRutasController: Handler = async (req, res) => {
+  const skip = Number(req.query.skip) || 0
+
+  const response = await getRutas(skip)
 
   if (!response) {
     return res.status(404).send()
