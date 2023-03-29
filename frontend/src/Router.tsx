@@ -8,7 +8,7 @@ export const RoutesMap = {
       pathBuilder: () => "/",
       routeProps: {
         path: "/",
-        element: <>Home</>,
+        element: <Login />,
       },
     },
   },
