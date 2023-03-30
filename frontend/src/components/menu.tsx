@@ -21,12 +21,12 @@ export const Menu: React.FC = () => {
       ),
     },
     {
-      key: "/home",
+      key: "/misRutas",
       title: "Mis rutas",
       icon: <MovieOutline />,
       label: (
         <NavLink to={RoutesMap.home.pathBuilder()}>
-          Home
+          Mis Rutas
         </NavLink>
       ),
     },
