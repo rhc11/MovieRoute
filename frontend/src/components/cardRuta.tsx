@@ -6,7 +6,7 @@ import {
   ExclamationCircleFill,
 } from "antd-mobile-icons"
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { jwtDecoded, Session } from "../helpers/jwtDecode"
 import { Ruta } from "../models/Ruta"
@@ -18,25 +18,9 @@ type Props = {
 
 export const CardRuta: React.FC<Props> = ({ ruta }) => {
   const navigate = useNavigate()
-  const [fav, setFav] = useState<string | undefined>(undefined)
-
-  const getFav = async () => {
-    try {
-      const session: Session | null = jwtDecoded()
-
-      if (!session) {
-        return
-      }
-
-      const response = await axios.get(
-        `http://localhost:8080/usuarioFavorito`,
-        { params: { usuarioEmail: session.email, rutaId: ruta.id } }
-      )
-      if (response.data.id) {
-        setFav(response.data.id)
-      }
-    } catch (error) {}
-  }
+  const [fav, setFav] = useState<string | undefined>(
+    ruta.favoritos[0] ? ruta.favoritos[0].id : undefined
+  )
 
   const updateFav = async () => {
     try {
@@ -98,10 +82,6 @@ export const CardRuta: React.FC<Props> = ({ ruta }) => {
   const onFav = async () => {
     fav ? await deleteFav() : await updateFav()
   }
-
-  useEffect(() => {
-    getFav()
-  }, [])
 
   return (
     <div className="rounded-lg border-2 border-black m-4">

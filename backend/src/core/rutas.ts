@@ -3,17 +3,28 @@ import { RutaModelInput } from "../models/rutas"
 
 const prisma = new PrismaClient()
 
-export const getRutas = async (skip: number) => {
+export const getRutas = async (skip: number, search?: string, userEmail?: string) => {
   try {
     const rutas = await prisma.ruta.findMany({
       skip: skip,
       take: 5,
+      where: {
+        titulo: {
+          contains: search || '',
+        },
+      },
       include: {
         paradas: {
           select: {
             parada: true,
           },
         },
+        favoritos: userEmail ? {
+          where: {
+            usuarioEmail: userEmail,
+          },
+          take: 1,
+        } : undefined,
       },
     })
 

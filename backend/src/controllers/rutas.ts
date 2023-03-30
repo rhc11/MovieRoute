@@ -10,8 +10,10 @@ import { RutaModelInput } from "../models/rutas"
 
 export const getRutasController: Handler = async (req, res) => {
   const skip = Number(req.query.skip) || 0
+  const search = req.query.search?.toString() || ''
+  const userEmail = req.query.userEmail?.toString() || ''
 
-  const response = await getRutas(skip)
+  const response = await getRutas(skip, search, userEmail)
 
   if (!response) {
     return res.status(404).send()
