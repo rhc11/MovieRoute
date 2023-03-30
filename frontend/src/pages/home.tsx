@@ -17,7 +17,7 @@ export const Home = () => {
   const fetchData = async (skip: number) => {
     try {
       const response = await axios.get(`http://localhost:8080/ruta`, {
-        params: { skip, search, userEmail: session?.email || "" },
+        params: { skip, search, userEmail: session ? session.email : "" },
       })
 
       const rutasArray: Array<Ruta> = response.data
