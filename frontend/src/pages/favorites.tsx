@@ -78,7 +78,7 @@ export const Favorites = () => {
   return (
     <div className="h-screen w-screen bg-white flex flex-col justify-center items-center ">
       <SearchBar
-        placeholder="Buscar ruta"
+        placeholder="Buscar ruta favorita"
         className="absolute inset-x-0 top-0 m-4"
         onSearch={handleSearch}
       />
