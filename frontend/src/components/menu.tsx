@@ -5,11 +5,13 @@ import {
   MovieOutline,
   StarOutline,
 } from "antd-mobile-icons"
-import { NavLink, useNavigate } from "react-router-dom"
+import { NavLink, useLocation, useNavigate } from "react-router-dom"
 import { RoutesMap } from "../Router"
 
 export const Menu: React.FC = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+  const { pathname } = location
   const tabs = [
     {
       key: "/home",
@@ -31,12 +33,12 @@ export const Menu: React.FC = () => {
       ),
     },
     {
-      key: "favs",
+      key: "/favorites",
       title: "Favoritos",
       icon: <StarOutline />,
       label: (
-        <NavLink to={RoutesMap.home.pathBuilder()}>
-          Home
+        <NavLink to={RoutesMap.favorites.pathBuilder()}>
+          Favoritos
         </NavLink>
       ),
     },
@@ -53,7 +55,7 @@ export const Menu: React.FC = () => {
   ]
 
   return (
-    <TabBar onChange={value => navigate(value)} className="w-full absolute inset-x-0 bottom-0 border-t-2 bg-white">
+    <TabBar activeKey={pathname} onChange={value => navigate(value)} className="w-full absolute inset-x-0 bottom-0 border-t-2 bg-white">
       {tabs.map((item) => (
         <TabBar.Item key={item.key} icon={item.icon} />
       ))}

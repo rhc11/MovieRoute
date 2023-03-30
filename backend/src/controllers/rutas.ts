@@ -12,8 +12,9 @@ export const getRutasController: Handler = async (req, res) => {
   const skip = Number(req.query.skip) || 0
   const search = req.query.search?.toString() || ''
   const userEmail = req.query.userEmail?.toString() || ''
+  const onlyFavs = Boolean(req.query.onlyFavs)
 
-  const response = await getRutas(skip, search, userEmail)
+  const response = await getRutas(skip, search, userEmail, onlyFavs)
 
   if (!response) {
     return res.status(404).send()

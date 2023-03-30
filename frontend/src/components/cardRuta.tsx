@@ -31,12 +31,12 @@ export const CardRuta: React.FC<Props> = ({ ruta }) => {
           header: <ExclamationCircleFill className="text-6xl" />,
           title: "¡Ups! Parece que no tienes acceso",
           content: (
-            <>
+            <div className="text-center">
               <p>
                 Únete ahora para disfrutar de todas las funciones y beneficios.
               </p>
               <p>¡Es fácil y rápido!</p>
-            </>
+            </div>
           ),
           closeOnMaskClick: true,
           onConfirm: () => {
