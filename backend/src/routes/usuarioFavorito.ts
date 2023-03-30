@@ -4,6 +4,6 @@ import { verifyToken } from "../middleware/validate-token"
 
 export const usuarioFavoritosRouter = Router()
     .get('/', getUsuarioFavoritoController)
-    .post('/', createUsuarioFavoritoController)
+    .post('/', verifyToken, createUsuarioFavoritoController)
     .patch('/:id', verifyToken, updateUsuarioFavoritoController)
-    .delete('/:id', deleteUsuarioFavoritoController)
+    .delete('/:id', verifyToken, deleteUsuarioFavoritoController)

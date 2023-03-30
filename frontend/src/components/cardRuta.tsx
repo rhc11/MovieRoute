@@ -8,7 +8,7 @@ import {
 import axios from "axios"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { jwtDecoded, Session } from "../helpers/jwtDecode"
+import { AccessTokenKey, jwtDecoded, Session } from "../helpers/jwtDecode"
 import { Ruta } from "../models/Ruta"
 import { CarouselMovies } from "./carouselMovies"
 
@@ -18,6 +18,7 @@ type Props = {
 
 export const CardRuta: React.FC<Props> = ({ ruta }) => {
   const navigate = useNavigate()
+  const token = localStorage.getItem(AccessTokenKey)
   const [fav, setFav] = useState<string | undefined>(
     ruta.favoritos[0] ? ruta.favoritos[0].id : undefined
   )
@@ -48,7 +49,12 @@ export const CardRuta: React.FC<Props> = ({ ruta }) => {
 
       const response = await axios.post(
         `http://localhost:8080/usuarioFavorito`,
-        { usuarioEmail: session.email, rutaId: ruta.id }
+        { usuarioEmail: session.email, rutaId: ruta.id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
 
       if (response.data.id) {
@@ -68,7 +74,12 @@ export const CardRuta: React.FC<Props> = ({ ruta }) => {
       }
 
       const response = await axios.delete(
-        `http://localhost:8080/usuarioFavorito/${fav}`
+        `http://localhost:8080/usuarioFavorito/${fav}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       )
 
       if (response.data) {
@@ -102,7 +113,11 @@ export const CardRuta: React.FC<Props> = ({ ruta }) => {
       <div className="mt-8 mx-4 mb-2">
         <div className="flex items-center justify-between">
           <strong className="w-6/8 truncate text-xl">{ruta.titulo}</strong>
-          <Button shape="rounded" className="border-white w-1/8" onClick={onFav}>
+          <Button
+            shape="rounded"
+            className="border-white w-1/8"
+            onClick={onFav}
+          >
             {fav ? (
               <StarFill className="text-3xl" />
             ) : (

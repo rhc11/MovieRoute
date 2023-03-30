@@ -3,18 +3,22 @@ import * as jwt from "jsonwebtoken"
 
 export const verifyToken: Handler = (req, res, next) => {
   try {
-    const token = req.header("token")
+    // Get the authorization header from the request
+    const authHeader = req.header('Authorization')
 
-    // Check if token exists
-    if (!token) {
-      throw new Error("Acceso denegado")
+    // Check if authorization header exists
+    if (!authHeader) {
+      throw new Error('Acceso denegado')
     }
+
+    // Split the authorization header to get the token
+    const token = authHeader.split(' ')[1]
 
     // Verify token using the provided secret key
     const verified = jwt.verify(token, process.env.TOKEN_SECRET || '')
 
     if (!verified) {
-        throw new Error("Acceso denegado")
+      throw new Error('Acceso denegado')
     }
 
     // Move to the next middleware
