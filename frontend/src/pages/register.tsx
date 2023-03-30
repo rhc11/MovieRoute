@@ -3,8 +3,8 @@ import axios from "axios"
 import { ExclamationCircleFill } from "antd-mobile-icons"
 import { setDefaultConfig } from "antd-mobile"
 import esES from "antd-mobile/es/locales/en-US"
-import { AccessTokenKey } from "./login"
 import { Link, useNavigate } from "react-router-dom"
+import { AccessTokenKey } from "../helpers/jwtDecode"
 
 // Set lenguage in Ant Design Modal
 setDefaultConfig({

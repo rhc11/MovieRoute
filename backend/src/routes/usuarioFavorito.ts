@@ -1,10 +1,9 @@
 import { Router } from 'express'
-import { getUsuarioFavoritosController, getUsuarioFavoritoController, createUsuarioFavoritoController, updateUsuarioFavoritoController, deleteUsuarioFavoritoController } from '../controllers/usuarioFavorito'
+import { getUsuarioFavoritoController, createUsuarioFavoritoController, updateUsuarioFavoritoController, deleteUsuarioFavoritoController } from '../controllers/usuarioFavorito'
 import { verifyToken } from "../middleware/validate-token"
 
 export const usuarioFavoritosRouter = Router()
-    .get('/', getUsuarioFavoritosController)
-    .get('/:id', getUsuarioFavoritoController)
-    .post('/', verifyToken, createUsuarioFavoritoController)
+    .get('/', getUsuarioFavoritoController)
+    .post('/', createUsuarioFavoritoController)
     .patch('/:id', verifyToken, updateUsuarioFavoritoController)
-    .delete('/:id', verifyToken, deleteUsuarioFavoritoController)
+    .delete('/:id', deleteUsuarioFavoritoController)

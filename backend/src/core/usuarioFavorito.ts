@@ -3,21 +3,16 @@ import { UsuarioFavoritoModelInput } from "../models/usuarioFavorito"
 
 const prisma = new PrismaClient()
 
-export const getUsuarioFavoritos = async () => {
-  try {
-    const usuarioFavoritos = await prisma.usuarioFavorito.findMany()
-
-    return usuarioFavoritos
-  } catch (error) {
-    throw error
-  }
-}
-
-export const getUsuarioFavorito = async (id: string) => {
+export const getUsuarioFavorito = async (
+  usuarioFavoritoInput: UsuarioFavoritoModelInput
+) => {
   try {
     const usuarioFavorito = await prisma.usuarioFavorito.findUnique({
       where: {
-        id,
+        usuarioEmail_rutaId: {
+          usuarioEmail: usuarioFavoritoInput.usuarioEmail,
+          rutaId: usuarioFavoritoInput.rutaId,
+        },
       },
     })
 
@@ -27,10 +22,12 @@ export const getUsuarioFavorito = async (id: string) => {
   }
 }
 
-export const createUsuarioFavorito = async (usuarioFavoritoInput: UsuarioFavoritoModelInput) => {
+export const createUsuarioFavorito = async (
+  usuarioFavoritoInput: UsuarioFavoritoModelInput
+) => {
   try {
     const usuarioFavorito = await prisma.usuarioFavorito.create({
-      data: usuarioFavoritoInput
+      data: usuarioFavoritoInput,
     })
 
     return usuarioFavorito
@@ -39,13 +36,16 @@ export const createUsuarioFavorito = async (usuarioFavoritoInput: UsuarioFavorit
   }
 }
 
-export const updateUsuarioFavorito = async (usuarioFavorito: UsuarioFavoritoModelInput, id: string) => {
+export const updateUsuarioFavorito = async (
+  usuarioFavorito: UsuarioFavoritoModelInput,
+  id: string
+) => {
   try {
     const usuarioFavoritoUpdated = await prisma.usuarioFavorito.update({
       where: {
-        id
+        id,
       },
-      data: usuarioFavorito
+      data: usuarioFavorito,
     })
 
     return usuarioFavoritoUpdated

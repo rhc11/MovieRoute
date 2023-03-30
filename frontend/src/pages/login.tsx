@@ -4,6 +4,7 @@ import { ExclamationCircleFill } from "antd-mobile-icons"
 import { setDefaultConfig } from "antd-mobile"
 import esES from "antd-mobile/es/locales/en-US"
 import { Link, useNavigate } from "react-router-dom"
+import { AccessTokenKey } from "../helpers/jwtDecode"
 
 // Set lenguage in Ant Design Modal
 setDefaultConfig({
@@ -19,10 +20,7 @@ type ResponseLogin = {
   data: {
     token: string
   }
-  message: string
 }
-
-export const AccessTokenKey = "accessToken"
 
 // Define the onFinish function to handle form submission
 export const Login = () => {
@@ -40,8 +38,9 @@ export const Login = () => {
       )
       // Set the token in localStorage
       if (response.data) {
+        console.log(response.data)
         localStorage.setItem(AccessTokenKey, response.data.token)
-        navigate('/home')
+        navigate("/home")
       }
     } catch (error) {
       // Show a modal dialog with an error message

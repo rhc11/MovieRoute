@@ -40,7 +40,7 @@ export const getRuta = async (id: string) => {
 export const createRuta = async (rutaInput: RutaModelInput) => {
   try {
     const ruta = await prisma.ruta.create({
-      data: rutaInput
+      data: rutaInput,
     })
 
     return ruta
@@ -53,9 +53,9 @@ export const updateRuta = async (ruta: RutaModelInput, id: string) => {
   try {
     const rutaUpdated = await prisma.ruta.update({
       where: {
-        id
+        id,
       },
-      data: ruta
+      data: ruta,
     })
 
     return rutaUpdated
