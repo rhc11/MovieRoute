@@ -38,7 +38,6 @@ export const Login = () => {
       )
       // Set the token in localStorage
       if (response.data) {
-        console.log(response.data)
         localStorage.setItem(AccessTokenKey, response.data.token)
         navigate("/home")
       }
