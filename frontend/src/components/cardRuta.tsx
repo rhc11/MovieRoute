@@ -102,7 +102,7 @@ export const CardRuta: React.FC<Props> = ({ ruta }) => {
       <div className="mt-8 mx-4 mb-2">
         <div className="flex items-center justify-between">
           <strong className="w-6/8 truncate text-xl">{ruta.titulo}</strong>
-          <Button className="border-white w-1/8" onClick={onFav}>
+          <Button shape="rounded" className="border-white w-1/8" onClick={onFav}>
             {fav ? (
               <StarFill className="text-3xl" />
             ) : (
