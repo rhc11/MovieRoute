@@ -8,13 +8,14 @@ import { jwtDecoded, Session } from "../helpers/jwtDecode"
 
 export const Home = () => {
   const [data, setData] = useState<Array<Ruta>>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
   const containerRef = useRef<HTMLDivElement | null>(null)
   const hasMountedRef = useRef(false)
   const session: Session | null = jwtDecoded()
 
   const fetchData = async (skip: number) => {
+    setLoading(true)
     try {
       const response = await axios.get(`http://localhost:8080/ruta`, {
         params: { skip, search, userEmail: session ? session.email : "" },
@@ -66,8 +67,11 @@ export const Home = () => {
           <CardRuta key={index} ruta={ruta} />
         ))}
         <div className="flex flex-col justify-center items-center ">
-          {loading && <SpinLoading />}
-          {data.length === 0 && <ErrorBlock status="empty" />}
+          {loading ? (
+            <SpinLoading />
+          ) : (
+            data.length === 0 && <ErrorBlock status="empty" />
+          )}
         </div>
       </div>
 
