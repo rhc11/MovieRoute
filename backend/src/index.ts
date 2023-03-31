@@ -8,6 +8,7 @@ import { completadosRouter } from "./routes/completados"
 import { rutaParadasRouter } from "./routes/rutaParada"
 import { usuarioFavoritosRouter } from "./routes/usuarioFavorito"
 import { usuarioRutasRouter } from "./routes/usuarioRuta"
+import { paradasRouter } from "./routes/paradas"
 
 const server = async () => {
   const app = express()
@@ -17,6 +18,7 @@ const server = async () => {
 
   app.use("/login", loginRouter)
   app.use("/ruta", rutasRouter)
+  app.use("/parada", paradasRouter)
   app.use("/usuario", usuariosRouter)
   app.use("/notificacion", notificacionesRouter)
   app.use("/completado", completadosRouter)

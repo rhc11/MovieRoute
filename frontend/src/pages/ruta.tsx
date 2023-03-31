@@ -196,6 +196,7 @@ export const RutaPreview: React.FC = () => {
             >
               {ruta.paradas.map((parada) => (
                 <Step
+                  key={parada.parada.id}
                   title={parada.parada.titulo}
                   status="finish"
                   description={parada.parada.direccion}

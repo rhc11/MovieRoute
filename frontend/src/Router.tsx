@@ -5,6 +5,7 @@ import { Home } from "./pages/home"
 import { Favorites } from './pages/favorites'
 import { MisRutas } from "./pages/misRutas"
 import { RutaPreview } from './pages/ruta'
+import { ParadaPreview } from './pages/parada';
 
 export const RoutesMap = {
   init: {
@@ -54,6 +55,13 @@ export const RoutesMap = {
     routeProps: {
       path: '/home/:rutaId',
       element: <RutaPreview />
+    }
+  },
+  paradaPreview: {
+    pathBuilder: () => '/home/:rutaId/parada/:paradaId',
+    routeProps: {
+      path: '/home/:rutaId/parada/:paradaId',
+      element: <ParadaPreview />
     }
   },
 } as const
