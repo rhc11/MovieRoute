@@ -7,7 +7,7 @@ import {
 } from "antd-mobile-icons"
 import axios from "axios"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { AccessTokenKey, jwtDecoded, Session } from "../helpers/jwtDecode"
 import { Ruta } from "../models/Ruta"
 import { CarouselMovies } from "./carouselMovies"
@@ -96,23 +96,27 @@ export const CardRuta: React.FC<Props> = ({ ruta }) => {
 
   return (
     <div className="rounded-lg border-2 border-black m-4">
-      <div className="relative">
-        <img
-          src={ruta.paradas[0].parada.imagenes[1]}
-          alt="MovieRoute"
-          className="object-cover w-full rounded-t-lg h-28"
-        />
-        <Button
-          block
-          shape="rounded"
-          className="absolute -bottom-5 left-1/3 bg-primary text-black w-1/3 border-primary"
-        >
-          Ver más
-        </Button>
-      </div>
+      <Link to={`/home/${ruta.id}`}>
+        <div className="relative">
+          <img
+            src={ruta.paradas[0].parada.imagenes[1]}
+            alt="MovieRoute"
+            className="object-cover w-full rounded-t-lg h-28"
+          />
+          <Button
+            block
+            shape="rounded"
+            className="absolute -bottom-5 left-1/3 bg-primary text-black w-1/3 border-primary"
+          >
+            Ver más
+          </Button>
+        </div>
+      </Link>
       <div className="mt-8 mx-4 mb-2">
         <div className="flex items-center justify-between">
-          <strong className="w-6/8 truncate text-xl">{ruta.titulo}</strong>
+          <Link to={`/home/${ruta.id}`}>
+            <strong className="w-6/8 truncate text-xl">{ruta.titulo}</strong>
+          </Link>
           <Button
             shape="rounded"
             className="border-white w-1/8"

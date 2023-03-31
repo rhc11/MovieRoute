@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from "react"
 import axios from "axios"
 import { Ruta } from "../models/Ruta"
 import { jwtDecoded, Session } from "../helpers/jwtDecode"
-import { Link } from "react-router-dom"
 
 export const Home = () => {
   const [data, setData] = useState<Array<Ruta>>([])
@@ -68,9 +67,7 @@ export const Home = () => {
         onScroll={handleScroll}
       >
         {data.map((ruta, index) => (
-          <Link to={`${window.location.pathname}/${ruta.id}`}>
-            <CardRuta key={index} ruta={ruta} />
-          </Link>
+          <CardRuta key={index} ruta={ruta} />
         ))}
         <div className="flex flex-col justify-center items-center ">
           {loading ? (
