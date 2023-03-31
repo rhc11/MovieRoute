@@ -13,7 +13,7 @@ const server = async () => {
   const app = express()
 
   app.use(express.json())
-  app.use(cors())
+  app.use(cors({origin: '*'}))
 
   app.use("/login", loginRouter)
   app.use("/ruta", rutasRouter)

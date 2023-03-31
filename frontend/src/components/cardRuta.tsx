@@ -126,7 +126,7 @@ export const CardRuta: React.FC<Props> = ({ ruta }) => {
           </Button>
         </div>
         <div className="flex items-center mt-1">
-          <LocationFill className="text-2xl" />
+          <LocationFill className="text-2xl mr-2" />
           <p className="text-base">{ruta.localizacion}</p>
         </div>
       </div>

@@ -28,7 +28,8 @@ export const getRutaController: RequestHandler<{ id: string }> = async (
   req,
   res
 ) => {
-  const response = await getRuta(req.params.id)
+  const userEmail = req.query.userEmail?.toString() || ''
+  const response = await getRuta(req.params.id, userEmail)
 
   if (!response) {
     return res.status(404).send()

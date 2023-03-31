@@ -5,18 +5,19 @@ import { useState, useEffect, useRef } from "react"
 import axios from "axios"
 import { Ruta } from "../models/Ruta"
 import { jwtDecoded, Session } from "../helpers/jwtDecode"
+import { Link } from "react-router-dom"
 
 export const Home = () => {
   const [data, setData] = useState<Array<Ruta>>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
-  const [noSkip, setNoSkip ] = useState(-1)
+  const [noSkip, setNoSkip] = useState(-1)
   const containerRef = useRef<HTMLDivElement | null>(null)
   const hasMountedRef = useRef(false)
   const session: Session | null = jwtDecoded()
 
   const fetchData = async (skip: number) => {
-    if(skip === noSkip) return
+    if (skip === noSkip) return
     setLoading(true)
     try {
       setNoSkip(data.length)
@@ -67,7 +68,9 @@ export const Home = () => {
         onScroll={handleScroll}
       >
         {data.map((ruta, index) => (
-          <CardRuta key={index} ruta={ruta} />
+          <Link to={`${window.location.pathname}/${ruta.id}`}>
+            <CardRuta key={index} ruta={ruta} />
+          </Link>
         ))}
         <div className="flex flex-col justify-center items-center ">
           {loading ? (

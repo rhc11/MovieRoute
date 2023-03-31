@@ -89,12 +89,27 @@ export const getRutas = async (
   }
 }
 
-export const getRuta = async (id: string) => {
+export const getRuta = async (id: string, userEmail?: string) => {
   try {
     const ruta = await prisma.ruta.findUnique({
       where: {
         id,
       },
+      include: {
+        paradas: {
+          select: {
+            parada: true,
+          },
+        },
+        favoritos: userEmail
+          ? {
+              where: {
+                usuarioEmail: userEmail,
+              },
+              take: 1,
+            }
+          : undefined,
+      }
     })
 
     return ruta

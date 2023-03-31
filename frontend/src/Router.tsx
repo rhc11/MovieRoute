@@ -4,6 +4,7 @@ import { Register } from "./pages/register"
 import { Home } from "./pages/home"
 import { Favorites } from './pages/favorites'
 import { MisRutas } from "./pages/misRutas"
+import { RutaPreview } from './pages/ruta'
 
 export const RoutesMap = {
   init: {
@@ -47,6 +48,13 @@ export const RoutesMap = {
       path: "/misRutas",
       element: <MisRutas />,
     },
+  },
+  rutaPreview: {
+    pathBuilder: () => '/home/:rutaId',
+    routeProps: {
+      path: '/home/:rutaId',
+      element: <RutaPreview />
+    }
   },
 } as const
 
