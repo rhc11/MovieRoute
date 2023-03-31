@@ -4,7 +4,8 @@ import { ExclamationCircleFill } from "antd-mobile-icons"
 import { setDefaultConfig } from "antd-mobile"
 import esES from "antd-mobile/es/locales/en-US"
 import { Link, useNavigate } from "react-router-dom"
-import { AccessTokenKey } from "../helpers/jwtDecode"
+import { AccessTokenKey, jwtDecoded, Session } from "../helpers/jwtDecode"
+import { useEffect } from "react"
 
 // Set lenguage in Ant Design Modal
 setDefaultConfig({
@@ -19,7 +20,16 @@ type FormValues = {
 }
 
 export const Register = () => {
+  const session: Session | null = jwtDecoded()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if(session) {
+      navigate("/home")
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  
   // Define the onFinish function to handle form submission
   const onFinish = async ({
     nombre,

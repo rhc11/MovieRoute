@@ -5,6 +5,13 @@ import { Home } from "./pages/home"
 import { Favorites } from './pages/favorites'
 
 export const RoutesMap = {
+  init: {
+    pathBuilder: () => "/",
+    routeProps: {
+      path: "/",
+      element: <Login />,
+    },
+  },
   login: {
     pathBuilder: () => "/login",
     routeProps: {
