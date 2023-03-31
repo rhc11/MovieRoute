@@ -12,14 +12,17 @@ export const Favorites = () => {
   const [data, setData] = useState<Array<Ruta>>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
+  const [noSkip, setNoSkip ] = useState(-1)
   const containerRef = useRef<HTMLDivElement | null>(null)
   const hasMountedRef = useRef(false)
   const session: Session | null = jwtDecoded()
   const navigate = useNavigate()
 
   const fetchData = async (skip: number) => {
+    if(skip === noSkip) return
     setLoading(true)
     try {
+      setNoSkip(data.length)
       const response = await axios.get(`http://localhost:8080/ruta`, {
         params: {
           skip,
