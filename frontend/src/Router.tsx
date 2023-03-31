@@ -3,6 +3,7 @@ import { Login } from "./pages/login"
 import { Register } from "./pages/register"
 import { Home } from "./pages/home"
 import { Favorites } from './pages/favorites'
+import { MisRutas } from "./pages/misRutas"
 
 export const RoutesMap = {
   init: {
@@ -38,6 +39,13 @@ export const RoutesMap = {
     routeProps: {
       path: "/favorites",
       element: <Favorites />,
+    },
+  },
+  misRutas: {
+    pathBuilder: () => "/misRutas",
+    routeProps: {
+      path: "/misRutas",
+      element: <MisRutas />,
     },
   },
 } as const

@@ -100,7 +100,7 @@ export const CardRuta: React.FC<Props> = ({ ruta }) => {
         <img
           src={ruta.paradas[0].parada.imagenes[1]}
           alt="MovieRoute"
-          className="object-cover w-full border-b-2 border-black rounded-t-lg h-28"
+          className="object-cover w-full rounded-t-lg h-28"
         />
         <Button
           block

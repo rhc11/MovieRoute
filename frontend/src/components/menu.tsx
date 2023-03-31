@@ -27,7 +27,7 @@ export const Menu: React.FC = () => {
       title: "Mis rutas",
       icon: <MovieOutline />,
       label: (
-        <NavLink to={RoutesMap.home.pathBuilder()}>
+        <NavLink to={RoutesMap.misRutas.pathBuilder()}>
           Mis Rutas
         </NavLink>
       ),

@@ -3,20 +3,37 @@ import { RutaModelInput } from "../models/rutas"
 
 const prisma = new PrismaClient()
 
-export const getRutas = async (skip: number, search?: string, userEmail?: string, onlyFavs?: boolean) => {
+export const getRutas = async (
+  skip: number,
+  search?: string,
+  userEmail?: string,
+  onlyFavs?: boolean,
+  onlyUser?: boolean
+) => {
   try {
     const rutas = await prisma.ruta.findMany({
       skip: skip,
       take: 5,
       where: {
         titulo: {
-          contains: search || '',
+          contains: search || "",
         },
-        favoritos: (onlyFavs && userEmail) ? {
-          some: {
-            usuarioEmail: userEmail,
-          },
-        } : undefined,
+        favoritos:
+          onlyFavs && userEmail
+            ? {
+                some: {
+                  usuarioEmail: userEmail,
+                },
+              }
+            : undefined,
+        usuarios:
+          onlyUser && userEmail
+            ? {
+                some: {
+                  usuarioEmail: userEmail,
+                },
+              }
+            : undefined,
       },
       include: {
         paradas: {
@@ -24,14 +41,47 @@ export const getRutas = async (skip: number, search?: string, userEmail?: string
             parada: true,
           },
         },
-        favoritos: userEmail ? {
-          where: {
-            usuarioEmail: userEmail,
-          },
-          take: 1,
-        } : undefined,
+        favoritos: userEmail
+          ? {
+              where: {
+                usuarioEmail: userEmail,
+              },
+              take: 1,
+            }
+          : undefined,
       },
     })
+
+    if (onlyUser && userEmail) {
+      const rutasConCompletados = await Promise.all(
+        rutas.map(async (ruta) => {
+          const paradasConCompletados = await prisma.parada.findMany({
+            where: {
+              rutas: {
+                some: {
+                  rutaId: ruta.id,
+                },
+              },
+            },
+            select: {
+              id: true,
+              completados: {
+                where: {
+                  usuarioEmail: userEmail,
+                },
+              },
+            },
+          })
+          const completadasPorUsuario = paradasConCompletados.reduce(
+            (count, parada) => count + (parada.completados.length > 0 ? 1 : 0),
+            0
+          )
+          return { ...ruta, completadasPorUsuario }
+        })
+      )
+
+      return rutasConCompletados
+    }
 
     return rutas
   } catch (error) {
