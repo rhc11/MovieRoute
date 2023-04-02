@@ -7,10 +7,10 @@ type Props = {
 }
 
 export const ProgressRuta: React.FC<Props> = ({ ruta }) => {
-  if (!ruta.completadasPorUsuario) return <></>
+  if (!ruta.paradasCompletadas) return <></>
 
   const percent = Math.round(
-    (ruta.completadasPorUsuario / ruta.paradas.length) * 100
+    (ruta.paradasCompletadas.length / ruta.paradas.length) * 100
   )
 
   return (

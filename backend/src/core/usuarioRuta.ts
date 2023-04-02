@@ -39,13 +39,17 @@ export const createUsuarioRuta = async (usuarioRutaInput: UsuarioRutaModelInput)
   }
 }
 
-export const updateUsuarioRuta = async (usuarioRuta: UsuarioRutaModelInput, id: string) => {
+export const updateUsuarioRuta = async (usuarioRuta: UsuarioRutaModelInput) => {
   try {
-    const usuarioRutaUpdated = await prisma.usuarioRuta.update({
+    const usuarioRutaUpdated = await prisma.usuarioRuta.upsert({
       where: {
-        id
+        usuarioEmail_rutaId: {
+          usuarioEmail: usuarioRuta.usuarioEmail,
+          rutaId: usuarioRuta.rutaId
+        }
       },
-      data: usuarioRuta
+      update: usuarioRuta,
+      create: usuarioRuta
     })
 
     return usuarioRutaUpdated

@@ -47,7 +47,7 @@ export const createUsuarioRutaController: Handler = async (req, res) => {
   return res.status(200).json(response)
 }
 
-export const updateUsuarioRutaController: RequestHandler<{ id: string }> = async (
+export const updateUsuarioRutaController: Handler = async (
   req,
   res
 ) => {
@@ -57,7 +57,7 @@ export const updateUsuarioRutaController: RequestHandler<{ id: string }> = async
     return res.status(400).send(validatedBody.error.issues)
   }
 
-  const response = await updateUsuarioRuta(validatedBody.data, req.params.id)
+  const response = await updateUsuarioRuta(validatedBody.data)
 
   if (!response) {
     return res.status(404).send()

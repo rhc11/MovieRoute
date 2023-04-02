@@ -7,11 +7,17 @@ export type Ruta = {
   localizacion: string
   favoritos: Favoritos[]
   paradas: { parada: Parada }[]
-  completadasPorUsuario?: number
+  paradasCompletadas?: ParadaCompletada[]
 }
 
 type Favoritos = {
   id: string
   rutaId: string
   usuarioEmail: string
+}
+
+type ParadaCompletada = {
+  id: string
+  rutaId: string
+  paradaId: string
 }

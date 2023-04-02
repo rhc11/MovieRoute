@@ -20,13 +20,17 @@ export const RutaPreview: React.FC = () => {
   const [imagenes, setImagenes] = useState<Array<JSX.Element>>([])
   const navigate = useNavigate()
   const [fav, setFav] = useState<string | undefined>(undefined)
+  const [nextParada, setNextParada] = useState<string | undefined>(undefined)
   const token = localStorage.getItem(AccessTokenKey)
+  const session: Session | null = jwtDecoded()
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/ruta/${rutaId}`
-      )
+      const response = await axios.get(`http://localhost:8080/ruta/${rutaId}`, {
+        params: {
+          userEmail: session ? session.email : "",
+        },
+      })
 
       const rutaData: Ruta = response.data
 
@@ -44,6 +48,16 @@ export const RutaPreview: React.FC = () => {
 
   useEffect(() => {
     if (ruta) {
+      const paradasDiferentes = ruta.paradas
+        .filter((p) => {
+          return !ruta.paradasCompletadas?.find((pc) => pc.id === p.parada.id)
+        })
+        .map((p) => p.parada)
+
+      if (paradasDiferentes.length !== 0) {
+        setNextParada(paradasDiferentes[0].id)
+      }
+
       setFav(ruta.favoritos[0] ? ruta.favoritos[0].id : undefined)
 
       const todasLasImagenes = ruta.paradas
@@ -135,6 +149,48 @@ export const RutaPreview: React.FC = () => {
     fav ? await deleteFav() : await updateFav()
   }
 
+  //Change to finish
+  const onClick = async () => {
+    try {
+      if (!session) {
+        Modal.alert({
+          header: <ExclamationCircleFill className="text-6xl" />,
+          title: "¡Ups! Parece que no tienes acceso",
+          content: (
+            <div className="text-center">
+              <p>
+                Únete ahora para disfrutar de todas las funciones y beneficios.
+              </p>
+              <p>¡Es fácil y rápido!</p>
+            </div>
+          ),
+          closeOnMaskClick: true,
+          onConfirm: () => {
+            navigate("/register")
+          },
+        })
+        return
+      }
+
+      await axios.patch(
+        `http://localhost:8080/usuarioRuta/`,
+        { usuarioEmail: session.email, rutaId: ruta ? ruta.id : "" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+    } catch (error) {
+      navigate(-1)
+      console.error(error)
+    }
+    
+    nextParada
+      ? navigate(`/home/${rutaId}/parada/${nextParada}`)
+      : navigate(`/home/${rutaId}`)
+  }
+
   return (
     <div className="h-screen w-screen bg-white flex flex-col justify-center items-center ">
       <NavBar
@@ -162,6 +218,7 @@ export const RutaPreview: React.FC = () => {
             <Button
               size="large"
               className="bg-primary text-black border-primary w-full rounded-none border-x-0 "
+              onClick={onClick}
             >
               Comenzar ruta
             </Button>

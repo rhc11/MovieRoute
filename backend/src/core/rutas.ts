@@ -55,28 +55,19 @@ export const getRutas = async (
     if (onlyUser && userEmail) {
       const rutasConCompletados = await Promise.all(
         rutas.map(async (ruta) => {
-          const paradasConCompletados = await prisma.parada.findMany({
+          const paradasCompletadas = await prisma.rutaParada.findMany({
             where: {
-              rutas: {
-                some: {
-                  rutaId: ruta.id,
-                },
-              },
-            },
-            select: {
-              id: true,
-              completados: {
-                where: {
-                  usuarioEmail: userEmail,
+              ruta: { id: ruta.id },
+              parada: {
+                completados: {
+                  some: {
+                    usuario: { email: userEmail },
+                  },
                 },
               },
             },
           })
-          const completadasPorUsuario = paradasConCompletados.reduce(
-            (count, parada) => count + (parada.completados.length > 0 ? 1 : 0),
-            0
-          )
-          return { ...ruta, completadasPorUsuario }
+          return { ...ruta, paradasCompletadas }
         })
       )
 
@@ -109,8 +100,25 @@ export const getRuta = async (id: string, userEmail?: string) => {
               take: 1,
             }
           : undefined,
-      }
+      },
     })
+
+    if (userEmail && ruta) {
+      const paradasCompletadas = await prisma.rutaParada.findMany({
+        where: {
+          ruta: { id: ruta.id },
+          parada: {
+            completados: {
+              some: {
+                usuario: { email: userEmail },
+              },
+            },
+          },
+        },
+      })
+
+      return { ...ruta, paradasCompletadas }
+    }
 
     return ruta
   } catch (error) {

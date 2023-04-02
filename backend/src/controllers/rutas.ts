@@ -29,6 +29,7 @@ export const getRutaController: RequestHandler<{ id: string }> = async (
   res
 ) => {
   const userEmail = req.query.userEmail?.toString() || ''
+  
   const response = await getRuta(req.params.id, userEmail)
 
   if (!response) {
