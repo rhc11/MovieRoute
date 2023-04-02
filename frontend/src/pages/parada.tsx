@@ -102,12 +102,11 @@ export const ParadaPreview: React.FC = () => {
 
   //Change to finish
   const onNext = () => {
-    console.log(nextParada)
     nextParada
       ? navigate(`/home/${rutaId}/parada/${nextParada}`, {
           state: { forceRefresh: true },
         })
-      : navigate(`/home/${rutaId}`, { state: { forceRefresh: true } })
+      : navigate(`/acabada/${rutaId}`, { state: { forceRefresh: true } })
   }
 
   const step = (stepParada: string) => {
@@ -151,13 +150,11 @@ export const ParadaPreview: React.FC = () => {
           },
         }
       )
-      console.log(response.data)
       if (response.data) {
         setFinish(true)
       }
     } catch (error) {
       navigate(-1)
-      console.error(error)
     }
   }
 
@@ -195,23 +192,32 @@ export const ParadaPreview: React.FC = () => {
                 <CameraOutline className="text-3xl" />
               </Button>
             )}
-            <div className="m-6 flex mt-4 items-center mt-1">
-              <Button
-                size="large"
-                className="bg-white text-black border-2 border-black rounded-none flex justify-center items-center w-full mr-2"
-                onClick={() => navigate(-1)}
-              >
-                Atrás
-              </Button>
-              <Button
-                size="large"
-                className={`${
-                  finish ? "bg-primary" : "bg-white"
-                } text-black border-2 border-black rounded-none flex justify-center items-center w-full ml-2`}
-                onClick={onNext}
-              >
-                Siguiente
-              </Button>
+            <div className="my-6 flex mt-4 items-center mt-1">
+              {!finish ? (
+                <Button
+                  size="large"
+                  className="bg-white text-black border-2 border-black rounded-none flex justify-center items-center w-full mr-6 ml-6"
+                  onClick={() => navigate(-1)}
+                >
+                  Atrás
+                </Button>
+              ) : (
+                <></>
+              )}
+
+              {!nextParada && !finish ? (
+                <></>
+              ) : (
+                <Button
+                  size="large"
+                  className={`${
+                    finish ? ( "bg-primary" ) : ( "bg-white border-2 border-black ml-6 mr-6" )
+                  } text-black rounded-none flex justify-center items-center w-full `}
+                  onClick={onNext}
+                >
+                  Siguiente
+                </Button>
+              )}
             </div>
             <strong className="m-6 text-lg">De interés</strong>
             <p className="mx-6 mt-2 mb-6 text-base">

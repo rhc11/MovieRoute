@@ -8,8 +8,10 @@ import {
 } from "../core/completados"
 import { CompletadoModelInput } from "../models/completados"
 
-export const getCompletadosController: Handler = async (_req, res) => {
-  const response = await getCompletados()
+export const getCompletadosController: Handler = async (req, res) => {
+  const userEmail = req.query.userEmail?.toString() || ''
+  const rutaId = req.query.rutaId?.toString() || ''
+  const response = await getCompletados(userEmail, rutaId)
 
   if (!response) {
     return res.status(404).send()

@@ -6,6 +6,7 @@ import { Favorites } from './pages/favorites'
 import { MisRutas } from "./pages/misRutas"
 import { RutaPreview } from './pages/ruta'
 import { ParadaPreview } from './pages/parada';
+import { AcabadaPreview } from "./pages/acabada"
 
 export const RoutesMap = {
   init: {
@@ -62,6 +63,13 @@ export const RoutesMap = {
     routeProps: {
       path: '/home/:rutaId/parada/:paradaId',
       element: <ParadaPreview />
+    }
+  },
+  acabadaPreview: {
+    pathBuilder: () => '/acabada/:rutaId/',
+    routeProps: {
+      path: '/acabada/:rutaId/',
+      element: <AcabadaPreview />
     }
   },
 } as const

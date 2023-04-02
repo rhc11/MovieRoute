@@ -3,9 +3,20 @@ import { CompletadoModelInput } from "../models/completados"
 
 const prisma = new PrismaClient()
 
-export const getCompletados = async () => {
+export const getCompletados = async (userEmail?: string, rutaId?: string) => {
   try {
-    const completados = await prisma.completado.findMany()
+    const completados = await prisma.completado.findMany({
+      where: {
+        usuarioEmail: userEmail,
+        parada: {
+          rutas: {
+            some: {
+              ruta: { id: rutaId },
+            },
+          },
+        },
+      },
+    })
 
     return completados
   } catch (error) {
