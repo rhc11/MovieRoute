@@ -1,6 +1,7 @@
 import { Icon, TabBar } from "@ant-design/react-native"
 import { useState } from "react"
 import { useNavigate } from "react-router-native"
+import { tw } from "../lib/tailwind"
 import { View } from "react-native"
 
 export const Menu: React.FC = () => {
@@ -13,7 +14,7 @@ export const Menu: React.FC = () => {
   }
 
   return (
-    <View style={{ zIndex: 2 }}>
+    <View style={tw`absolute inset-x-0 bottom-0`}>
       <TabBar unselectedTintColor="#949494" tintColor="#ffcd6b">
         <TabBar.Item
           title="Home"
