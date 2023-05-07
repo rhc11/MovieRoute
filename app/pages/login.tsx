@@ -32,7 +32,6 @@ export const Login = () => {
       }
     }
     checkSession()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Define the onFinish function to handle form submission
@@ -46,11 +45,10 @@ export const Login = () => {
           password,
         }
       )
-      console.log(response)
       // Set the token in localStorage
       if (response.data) {
         await AsyncStorage.setItem(AccessTokenKey, response.data.token)
-        //navigate("/home")
+        navigate("/home")
       }
     } catch (error) {
       // Show a modal dialog with an error message
@@ -76,11 +74,8 @@ export const Login = () => {
             .required("Introduce el email"),
         })}
         onSubmit={async (values, formikActions) => {
-          console.log(values)
           await onFinish(values)
-            
           formikActions.setSubmitting(false)
-          
         }}
       >
         {(props) => (
