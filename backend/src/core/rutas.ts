@@ -35,6 +35,9 @@ export const getRutas = async (
               }
             : undefined,
       },
+      orderBy: {
+        titulo: 'asc'
+      },
       include: {
         paradas: {
           select: {
