@@ -1,5 +1,4 @@
 import { Icon, TabBar } from "@ant-design/react-native"
-import { useState } from "react"
 import { useNavigate, useLocation } from "react-router-native"
 import { tw } from "../lib/tailwind"
 import { View } from "react-native"
