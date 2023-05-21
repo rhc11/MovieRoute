@@ -1,15 +1,14 @@
 import { Icon, TabBar } from "@ant-design/react-native"
 import { useState } from "react"
-import { useNavigate } from "react-router-native"
+import { useNavigate, useLocation } from "react-router-native"
 import { tw } from "../lib/tailwind"
 import { View } from "react-native"
 
 export const Menu: React.FC = () => {
   const navigate = useNavigate()
-  const [selected, setSelected] = useState("/home")
+  const location = useLocation()
 
   const onChangeTab = (tab: string) => {
-    setSelected(tab)
     navigate(tab)
   }
 
@@ -19,25 +18,25 @@ export const Menu: React.FC = () => {
         <TabBar.Item
           title="Home"
           icon={<Icon name="home" />}
-          selected={selected === "/home"}
+          selected={location.pathname === "/home"}
           onPress={() => onChangeTab("/home")}
         />
         <TabBar.Item
           title="Mis rutas"
           icon={<Icon name="video-camera" />}
-          selected={selected === "/misRutas"}
+          selected={location.pathname === "/misRutas"}
           onPress={() => onChangeTab("/misRutas")}
         />
         <TabBar.Item
           title="Favoritos"
           icon={<Icon name="star" />}
-          selected={selected === "/favorites"}
+          selected={location.pathname === "/favorites"}
           onPress={() => onChangeTab("/favorites")}
         />
         <TabBar.Item
           title="Perfil"
           icon={<Icon name="user" />}
-          selected={selected === "/user"}
+          selected={location.pathname === "/user"}
           onPress={() => onChangeTab("/user")}
         />
       </TabBar>

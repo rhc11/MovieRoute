@@ -2,6 +2,7 @@ import { NativeRouter, Route, Routes } from "react-router-native"
 import { Login } from "./pages/login"
 import { Register } from "./pages/register"
 import { Home } from "./pages/home"
+import { Favorites } from "./pages/favorites"
 
 export const RoutesMap = {
   init: {
@@ -30,6 +31,13 @@ export const RoutesMap = {
     routeProps: {
       path: "/home",
       element: <Home />,
+    },
+  },
+  favorites: {
+    pathBuilder: () => "/favorites",
+    routeProps: {
+      path: "/favorites",
+      element: <Favorites />,
     },
   },
 } as const

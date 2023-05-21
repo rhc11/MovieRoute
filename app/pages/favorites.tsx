@@ -14,7 +14,7 @@ import { Session, jwtDecoded } from "../lib/jwtDecode"
 import axios from "axios"
 import { CardRuta } from "../components/cardRuta"
 
-export const Home = () => {
+export const Favorites = () => {
   const [data, setData] = useState<Array<Ruta>>([])
   const [session, setSession] = useState<Session | null>(null)
   const [search, setSearch] = useState("")
@@ -28,7 +28,12 @@ export const Home = () => {
     try {
       setNoSkip(data.length)
       const response = await axios.get(`http://192.168.1.57:8080/ruta`, {
-        params: { skip, search, userEmail: session ? session.email : "" },
+        params: {
+          skip,
+          search,
+          userEmail: session ? session.email : "",
+          onlyFavs: true,
+        },
       })
 
       const rutasArray: Array<Ruta> = response.data
@@ -42,8 +47,8 @@ export const Home = () => {
 
   const cancelSearch = () => {
     Keyboard.dismiss()
-    setSearchKey(prevKey => prevKey + 1)
-    handleSearch('')
+    setSearchKey((prevKey) => prevKey + 1)
+    handleSearch("")
   }
 
   const handleSearch = (value: string) => {
@@ -65,33 +70,42 @@ export const Home = () => {
   }
 
   useEffect(() => {
-    fetchData(0)
-  }, [search])
-
-  useEffect(() => {
     const checkSession = async () => {
       const getSession: Session | null = await jwtDecoded()
       setSession(getSession)
     }
+
     checkSession()
   }, [])
+
+  useEffect(() => {
+    if (session) {
+      fetchData(0)
+    }
+  }, [search, session])
 
   return (
     <View style={{ flex: 1, zIndex: 1 }}>
       <SearchBar
         key={searchKey}
-        placeholder="Buscar ruta"
+        placeholder="Buscar ruta favorita"
         style={tw`inset-x-0 top-0 border-black rounded-full`}
         onSubmit={handleSearch}
         onCancel={() => cancelSearch()}
       />
 
-      <ScrollView style={tw`flex-1 z-0`} onScroll={handleScroll} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={tw`flex-1 z-0`}
+        onScroll={handleScroll}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={tw`flex-1 items-center justify-center p-3 pb-20`}>
           {data.length === 0 ? (
             <></>
           ) : (
-            data.map((ruta, index) => <CardRuta key={index} ruta={ruta} session={session} />)
+            data.map((ruta, index) => (
+              <CardRuta key={index} ruta={ruta} session={session} />
+            ))
           )}
         </View>
         {loading ? (
