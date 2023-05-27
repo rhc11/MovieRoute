@@ -24,7 +24,7 @@ export const ProgressRuta: React.FC<Props> = ({ ruta }) => {
       <ProgressCircle
         percent={percent}
         radius={50}
-        borderWidth={8}
+        borderWidth={4}
         color="#ffcd6b"
         shadowColor="#949494"
         bgColor="#fff"

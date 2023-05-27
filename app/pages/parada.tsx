@@ -1,4 +1,11 @@
-import { ScrollView, View, Image, Text, ActivityIndicator } from "react-native"
+import {
+  ScrollView,
+  View,
+  Image,
+  Text,
+  ActivityIndicator,
+  Modal,
+} from "react-native"
 import { Menu } from "../components/menu"
 import { tw } from "../lib/tailwind"
 import { useLocation, useNavigate, useParams } from "react-router-native"
@@ -10,6 +17,7 @@ import { Button, Carousel, Icon, Steps, Result } from "@ant-design/react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { CarouselMovies } from "../components/carouselMovies"
 import { Parada } from "../models/Parada"
+import { Camara } from "../components/camara"
 
 const Step = Steps.Step
 
@@ -21,6 +29,7 @@ export const ParadaPreview = () => {
   const [finish, setFinish] = useState<boolean>(false)
   const [session, setSession] = useState<Session | null>(null)
   const [imagenes, setImagenes] = useState<Array<JSX.Element>>([])
+  const [cameraVisible, setCameraVisible] = useState(false)
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -104,6 +113,7 @@ export const ParadaPreview = () => {
 
   const onPress = async () => {
     try {
+      /*
       const token = await AsyncStorage.getItem(AccessTokenKey)
       const response = await axios.post(
         `http://192.168.1.57:8080/completado/`,
@@ -121,6 +131,8 @@ export const ParadaPreview = () => {
       if (response.data) {
         setFinish(true)
       }
+      */
+      setCameraVisible(true)
     } catch (error) {
       navigate(-1)
       console.error(error)
@@ -221,6 +233,15 @@ export const ParadaPreview = () => {
                 <Icon name="camera" color="black" size="lg" />
               </Button>
             )}
+
+            <Modal
+              animationType="slide"
+              transparent={false}
+              visible={cameraVisible}
+              onRequestClose={() => setCameraVisible(false)}
+            >
+              <Camara />
+            </Modal>
 
             <Text style={tw`mx-6 text-lg mt-6`}>De interés</Text>
             <Text style={tw`mx-6 mt-2 mb-6 text-base`}>

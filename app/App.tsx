@@ -7,7 +7,7 @@ import { ActivityIndicator, View } from "react-native"
 
 const theme = {
   brand_primary: "#FFCD6B",
-  color_link: "#FFCD6B",
+  color_link: "#FFCD6B"
 }
 
 export default function App() {
