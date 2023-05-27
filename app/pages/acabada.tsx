@@ -6,20 +6,21 @@ import { Ruta } from "../models/Ruta"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { AccessTokenKey, Session, jwtDecoded } from "../lib/jwtDecode"
-import { Button, Carousel, Icon, Steps } from "@ant-design/react-native"
+import { Button, Carousel, Icon, Result, Steps } from "@ant-design/react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { CarouselMovies } from "../components/carouselMovies"
+import { Completado } from "../models/Completado"
 
 const Step = Steps.Step
 
-export const RutaPreview = () => {
+export const AcabadaPreview = () => {
   const { rutaId } = useParams<{ rutaId: string }>()
   const [ruta, setRuta] = useState<Ruta | undefined>(undefined)
-  const navigate = useNavigate()
+  const [completados, setCompletados] = useState<Array<Completado>>([])
+  const [fotos, setFotos] = useState<Array<JSX.Element>>([])
   const [session, setSession] = useState<Session | null>(null)
-  const [imagenes, setImagenes] = useState<Array<JSX.Element>>([])
   const [fav, setFav] = useState<string | undefined>(undefined)
-  const [nextParada, setNextParada] = useState<string | undefined>(undefined)
+  const navigate = useNavigate()
 
   const fetchData = async () => {
     try {
@@ -35,56 +36,35 @@ export const RutaPreview = () => {
       const rutaData: Ruta = response.data
 
       setRuta(rutaData)
+
+      const responseCompletado = await axios.get(
+        `http://192.168.1.57:8080/completado`,
+        {
+          params: {
+            userEmail: session ? session.email : "",
+            rutaId: rutaId,
+          },
+        }
+      )
+
+      const responseCompletadoData: Array<Completado> = responseCompletado.data
+
+      setCompletados(responseCompletadoData)
     } catch (error) {
       navigate(-1)
       console.error("Error al obtener las rutas:", error)
     }
   }
 
-  const onPress = async () => {
-    try {
-      const token = await AsyncStorage.getItem(AccessTokenKey)
-      await axios.patch(
-        `http://192.168.1.57:8080/usuarioRuta/`,
-        {
-          usuarioEmail: session ? session.email : "",
-          rutaId: ruta ? ruta.id : "",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-    } catch (error) {
-      navigate(-1)
-      console.error(error)
-    }
-
-    nextParada
-      ? navigate(`/home/${rutaId}/parada/${nextParada}`)
-      : navigate(`/home/${rutaId}`)
-  }
-
   useEffect(() => {
-    if (ruta) {
-      const paradasDiferentes = ruta.paradas
-        .filter((p) => {
-          return !ruta.paradasCompletadas?.find(
-            (pc) => pc.paradaId === p.parada.id
-          )
-        })
-        .map((p) => p.parada)
-
-      paradasDiferentes.length !== 0
-        ? setNextParada(paradasDiferentes[0].id)
-        : navigate(`/acabada/${rutaId}`, { state: { forceRefresh: true } })
+    if (ruta && ruta.paradasCompletadas) {
+      if (ruta.paradasCompletadas.length !== ruta.paradas.length) {
+        return navigate(`/home/${rutaId}`)
+      }
 
       setFav(ruta.favoritos[0] ? ruta.favoritos[0].id : undefined)
 
-      const todasLasImagenes = ruta.paradas
-        .map((item) => item.parada.imagenes)
-        .flat()
+      const todasLasImagenes = completados.map((item) => item.foto).flat()
 
       const itemImagenes = todasLasImagenes.map((imagen, index) => (
         <Image
@@ -96,9 +76,9 @@ export const RutaPreview = () => {
         />
       ))
 
-      setImagenes(itemImagenes)
+      setFotos(itemImagenes)
     }
-  }, [ruta])
+  }, [completados, navigate, ruta, rutaId])
 
   const updateFav = async () => {
     const token = await AsyncStorage.getItem(AccessTokenKey)
@@ -174,80 +154,98 @@ export const RutaPreview = () => {
           { position: "absolute", top: 10, left: 10 },
         ]}
         activeStyle={[tw`bg-gray-700`]}
-        onPress={() => navigate(-1)}
+        onPress={() => navigate("/home")}
       >
         <Icon name="left" color="black" />
       </Button>
+
+      <Button
+        style={[
+          tw`border-black rounded-full h-10 w-10 z-1 p-0`,
+          { position: "absolute", top: 10, right: 10 },
+        ]}
+        activeStyle={[tw`bg-gray-700`]}
+      >
+        <Icon name="send" color="black" />
+      </Button>
+      {fav ? (
+        <Button
+          style={[
+            tw`border-black rounded-full bg-primary h-10 w-10 z-1 p-0`,
+            { position: "absolute", top: 10, right: 60 },
+          ]}
+          activeStyle={[tw`bg-gray-700`]}
+          onPress={onFav}
+        >
+          <Icon name="star" color="black" />
+        </Button>
+      ) : (
+        <Button
+          style={[
+            tw`border-black rounded-full h-10 w-10 z-1 p-0`,
+            { position: "absolute", top: 10, right: 60 },
+          ]}
+          activeStyle={[tw`bg-gray-700`]}
+          onPress={onFav}
+        >
+          <Icon name="star" color="black" />
+        </Button>
+      )}
+
       <ScrollView style={tw`flex-1 z-0`} showsVerticalScrollIndicator={false}>
         {ruta ? (
           <>
-            <Button
-              style={[
-                tw`border-black rounded-full h-10 w-10 z-1 p-0`,
-                { position: "absolute", top: 140, right: 10 },
-              ]}
-              activeStyle={[tw`bg-gray-700`]}
-            >
-              <Icon name="send" color="black" />
-            </Button>
-            {fav ? (
-              <Button
-                style={[
-                  tw`border-black rounded-full bg-primary h-10 w-10 z-1 p-0`,
-                  { position: "absolute", top: 140, left: 10 },
-                ]}
-                activeStyle={[tw`bg-gray-700`]}
-                onPress={onFav}
-              >
-                <Icon name="star" color="black" />
-              </Button>
-            ) : (
-              <Button
-                style={[
-                  tw`border-black rounded-full h-10 w-10 z-1 p-0`,
-                  { position: "absolute", top: 140, left: 10 },
-                ]}
-                activeStyle={[tw`bg-gray-700`]}
-                onPress={onFav}
-              >
-                <Icon name="star" color="black" />
-              </Button>
-            )}
-
-            <Carousel infinite style={tw`h-48`}>
-              {imagenes}
-            </Carousel>
-            <Text style={tw`mx-6 my-4 text-xl `}>{ruta.titulo}</Text>
+            <Text style={tw`mx-6 my-4 mt-16 text-xl `}>{ruta.titulo}</Text>
 
             <View style={tw`flex-row items-center mx-6 mb-4`}>
               <Icon name="environment" color="black" />
               <Text style={tw`text-base ml-2`}>{ruta.localizacion}</Text>
             </View>
 
-            <Button
-              style={tw`bg-primary text-black border-primary w-full rounded-none`}
-              onPress={onPress}
-            >
-              Comenzar ruta
-            </Button>
+            <Result
+              imgUrl={require("./../assets/vectorsmile.png")}
+              title="¡Enhorabuena!"
+              message="Has completado la ruta"
+              style={tw`p-4`}
+            />
 
             <View style={tw`m-4 mb-6 bg-black rounded-lg`}>
               <Text style={tw`text-base text-primary p-4 text-center`}>
-                Toma una foto en cada parada y podrás ganar increibles... {"\n"}
-                ¡Premios y descuentos!
+                {session?.nombre || "Usuario"}, revisa tu correo electrónico, te
+                hemos enviado un regalo ;)
               </Text>
             </View>
 
-            <Text style={tw`mx-6 text-lg`}>Información</Text>
-            <Text style={tw`mx-6 mt-2 mb-6 text-base`}>
-              {ruta.descripcion} Sed ut perspiciatis unde omnis iste natus error
-              sit voluptatem accusantium doloremque laudantium, totam rem
-              aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-              architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-              voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
-            </Text>
+            <Text style={tw`mx-6 text-lg mb-4`}>Aquí tienes tus fotos</Text>
 
-            <View style={tw`w-full`}>
+            <Carousel infinite style={tw`h-48`}>
+              {fotos}
+            </Carousel>
+
+            <View style={tw`flex-row justify-between items-center mt-4 px-32`}>
+              <Button
+                style={[tw`border-black rounded-full h-10 w-10 p-0`]}
+                activeStyle={[tw`bg-gray-700`]}
+              >
+                <Icon name="instagram" color="black" />
+              </Button>
+
+              <Button
+                style={[tw`border-black rounded-full h-10 w-10 p-0`]}
+                activeStyle={[tw`bg-gray-700`]}
+              >
+                <Icon name="twitter" color="black" />
+              </Button>
+
+              <Button
+                style={[tw`border-black rounded-full h-10 w-10 p-0`]}
+                activeStyle={[tw`bg-gray-700`]}
+              >
+                <Icon name="send" color="black" />
+              </Button>
+            </View>
+
+            <View style={tw`w-full mt-8`}>
               <CarouselMovies paradas={ruta.paradas} />
             </View>
 
@@ -258,7 +256,7 @@ export const RutaPreview = () => {
                   <Step
                     key={parada.parada.id}
                     title={parada.parada.titulo}
-                    status="wait"
+                    status="finish"
                     description={parada.parada.direccion}
                   />
                 ))}

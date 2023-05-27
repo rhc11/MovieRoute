@@ -95,12 +95,12 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
           </Text>
 
           {fav ? (
-            <Button style={tw`border-white rounded-full bg-primary h-15 w-15 `} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
+            <Button style={tw`border-white rounded-full bg-primary h-15 w-15 p-0`} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
               <Icon name="star" color='black' size={30}/>
             </Button>
             
           ) : (
-            <Button style={tw`border-white rounded-full bg-white h-15 w-15`} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
+            <Button style={tw`border-white rounded-full bg-white h-15 w-15 p-0`} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
               <Icon name="star" color="black" size={30}/>
             </Button>
           )}

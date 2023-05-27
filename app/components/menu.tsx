@@ -13,7 +13,7 @@ export const Menu: React.FC = () => {
 
   return (
     <View style={tw`absolute inset-x-0 bottom-0`}>
-      <TabBar unselectedTintColor="#949494" tintColor="#ffcd6b">
+      <TabBar unselectedTintColor="black" tintColor="#ffcd6b">
         <TabBar.Item
           title="Home"
           icon={<Icon name="home" />}
