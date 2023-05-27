@@ -27,7 +27,6 @@ export const MisRutas = () => {
     setLoading(true)
     try {
       setNoSkip(data.length)
-      console.log(session)
       const response = await axios.get(`http://192.168.1.57:8080/ruta`, {
         params: {
           skip,

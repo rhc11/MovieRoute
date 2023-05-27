@@ -7,6 +7,7 @@ import { AccessTokenKey, Session } from "../lib/jwtDecode"
 import { useState } from "react"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { useNavigate } from "react-router-native"
 
 type Props = {
   ruta: Ruta
@@ -14,6 +15,8 @@ type Props = {
 }
 
 export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
+  const navigate = useNavigate()
+  
   const [fav, setFav] = useState<string | undefined>(
     ruta.favoritos[0] ? ruta.favoritos[0].id : undefined
   )
@@ -67,6 +70,8 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
     fav ? await deleteFav() : await updateFav()
   }
 
+  const onPress = () => (navigate(`/home/${ruta.id}`))
+
   return (
     <View style={tw`rounded-lg border-2 border-black m-2 w-full`}>
       <View style={tw`relative`}>
@@ -77,8 +82,9 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
           resizeMode="cover"
         />
         <Button
-          style={tw`absolute -bottom-5 left-1/3 bg-primary text-black w-1/3 border-primary rounded-full`}
-          activeStyle={[tw`bg-gray-700 border-gray-700`]}
+          style={tw`absolute -bottom-5 left-1/3 bg-primary text-black w-1/3 border-0 rounded-full`}
+          activeStyle={[tw`bg-gray-700`]}
+          onPress={onPress}
         >
           Ver más
         </Button>
@@ -90,18 +96,19 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
             style={tw`w-13/16 text-xl mr-4`}
             numberOfLines={1}
             ellipsizeMode="tail"
+            onPress={onPress}
           >
             {ruta.titulo}
           </Text>
 
           {fav ? (
-            <Button style={tw`border-white rounded-full bg-primary h-15 w-15 p-0`} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
-              <Icon name="star" color='black' size={30}/>
+            <Button style={tw`border-black rounded-full bg-primary h-10 w-10 p-0`} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
+              <Icon name="star" color='black'/>
             </Button>
             
           ) : (
-            <Button style={tw`border-white rounded-full bg-white h-15 w-15 p-0`} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
-              <Icon name="star" color="black" size={30}/>
+            <Button style={tw`border-black rounded-full bg-white h-10 w-10 p-0`} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
+              <Icon name="star" color="black"/>
             </Button>
           )}
         </View>
@@ -111,6 +118,7 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
             style={tw`text-base ml-2`}
             numberOfLines={1}
             ellipsizeMode="tail"
+            onPress={onPress}
           >
             {ruta.localizacion}
           </Text>

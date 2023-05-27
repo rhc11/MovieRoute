@@ -166,7 +166,7 @@ export const AcabadaPreview = () => {
         ]}
         activeStyle={[tw`bg-gray-700`]}
       >
-        <Icon name="send" color="black" />
+        <Icon name="share-alt" color="black" />
       </Button>
       {fav ? (
         <Button
@@ -241,7 +241,7 @@ export const AcabadaPreview = () => {
                 style={[tw`border-black rounded-full h-10 w-10 p-0`]}
                 activeStyle={[tw`bg-gray-700`]}
               >
-                <Icon name="send" color="black" />
+                <Icon name="share-alt" color="black" />
               </Button>
             </View>
 

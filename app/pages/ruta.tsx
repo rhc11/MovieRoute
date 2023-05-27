@@ -188,7 +188,7 @@ export const RutaPreview = () => {
               ]}
               activeStyle={[tw`bg-gray-700`]}
             >
-              <Icon name="send" color="black" />
+              <Icon name="share-alt" color="black" />
             </Button>
             {fav ? (
               <Button

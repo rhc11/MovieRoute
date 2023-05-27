@@ -185,7 +185,7 @@ export const ParadaPreview = () => {
               ]}
               activeStyle={[tw`bg-gray-700`]}
             >
-              <Icon name="send" color="black" />
+              <Icon name="share-alt" color="black" />
             </Button>
 
             <Carousel infinite style={tw`h-48`}>

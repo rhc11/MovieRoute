@@ -5,6 +5,11 @@ import * as Font from "expo-font"
 import { useEffect, useState } from "react"
 import { ActivityIndicator, View } from "react-native"
 
+const theme = {
+  brand_primary: "#FFCD6B",
+  color_link: "#FFCD6B",
+}
+
 export default function App() {
   const [isReady, setIsReady] = useState(false)
 
@@ -30,7 +35,7 @@ export default function App() {
   }
 
   return (
-    <Provider locale={esES}>
+    <Provider locale={esES} theme={theme}>
       <Router />
     </Provider>
   )
