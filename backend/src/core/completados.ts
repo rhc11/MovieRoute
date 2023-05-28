@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import { CompletadoModelInput } from "../models/completados"
+import { CompletadoModelInput, CreateCompletadoModel } from "../models/completados"
 
 const prisma = new PrismaClient()
 
@@ -38,10 +38,36 @@ export const getCompletado = async (id: string) => {
   }
 }
 
-export const createCompletado = async (completadoInput: CompletadoModelInput) => {
+export const createCompletado = async (completadoInput: CreateCompletadoModel) => {
   try {
+    const parada = await prisma.parada.findUnique({
+      where: {
+        id: completadoInput.paradaId
+      }
+    })
+
+    if(!parada) {
+      return null
+    }
+
+    // Extraer latitud y longitud de las cadenas de entrada
+    const inputLat = completadoInput.coords.latitude.toString().split(".")
+    const inputLon = completadoInput.coords.longitude.toString().split(".")
+    const paradaLat = parada.coordenadas.latitud.split(".")
+    const paradaLon = parada.coordenadas.altitud.split(".")
+
+    // Comprobar si la latitud y la longitud son válidas
+    if (inputLat[0] !== paradaLat[0] || inputLat[1].substring(0, 3) !== paradaLat[1].substring(0, 3) ||
+        inputLon[0] !== paradaLon[0] || inputLon[1].substring(0, 3) !== paradaLon[1].substring(0, 3)) {
+      return null
+    }
+
     const completado = await prisma.completado.create({
-      data: completadoInput
+      data: {
+        foto: completadoInput.foto,
+        usuarioEmail: completadoInput.usuarioEmail,
+        paradaId: completadoInput.paradaId
+      }
     })
 
     return completado

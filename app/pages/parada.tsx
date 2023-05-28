@@ -111,34 +111,6 @@ export const ParadaPreview = () => {
     return "wait"
   }
 
-  const onPress = async () => {
-    try {
-      /*
-      const token = await AsyncStorage.getItem(AccessTokenKey)
-      const response = await axios.post(
-        `http://192.168.1.57:8080/completado/`,
-        {
-          usuarioEmail: session ? session.email : "",
-          paradaId: paradaId,
-          foto: "https://images.pexels.com/photos/2507801/pexels-photo-2507801.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      if (response.data) {
-        setFinish(true)
-      }
-      */
-      setCameraVisible(true)
-    } catch (error) {
-      navigate(-1)
-      console.error(error)
-    }
-  }
-
   useEffect(() => {
     const checkSession = async () => {
       const getSession: Session | null = await jwtDecoded()
@@ -228,7 +200,7 @@ export const ParadaPreview = () => {
             ) : (
               <Button
                 style={tw`bg-primary text-black border-primary w-full rounded-none`}
-                onPress={onPress}
+                onPress={() => setCameraVisible(true)}
               >
                 <Icon name="camera" color="black" size="lg" />
               </Button>
@@ -240,7 +212,12 @@ export const ParadaPreview = () => {
               visible={cameraVisible}
               onRequestClose={() => setCameraVisible(false)}
             >
-              <Camara />
+              <Camara 
+                usuarioEmail={session ? session.email : ''}
+                paradaId={paradaId ? paradaId : ''}
+                setFinish={setFinish}
+                setCameraVisible={setCameraVisible}
+              />
             </Modal>
 
             <Text style={tw`mx-6 text-lg mt-6`}>De interés</Text>

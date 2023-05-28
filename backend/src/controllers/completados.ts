@@ -6,7 +6,7 @@ import {
   updateCompletado,
   deleteCompletado,
 } from "../core/completados"
-import { CompletadoModelInput } from "../models/completados"
+import { CompletadoModelInput, CreateCompletadoModel } from "../models/completados"
 
 export const getCompletadosController: Handler = async (req, res) => {
   const userEmail = req.query.userEmail?.toString() || ''
@@ -34,17 +34,14 @@ export const getCompletadoController: RequestHandler<{ id: string }> = async (
 }
 
 export const createCompletadoController: Handler = async (req, res) => {
-  const validatedBody = CompletadoModelInput.safeParse(req.body)
+  console.log(req.body)
+  const validatedBody = CreateCompletadoModel.safeParse(req.body)
 
   if (!validatedBody.success) {
     return res.status(400).send(validatedBody.error.issues)
   }
 
   const response = await createCompletado(validatedBody.data)
-
-  if (!response) {
-    return res.status(404).send()
-  }
 
   return res.status(200).json(response)
 }
