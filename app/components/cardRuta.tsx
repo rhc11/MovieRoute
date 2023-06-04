@@ -93,7 +93,7 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
       <View style={tw`mt-6 mx-4 mb-2`}>
         <View style={tw`flex-row items-center justify-between`}>
           <Text
-            style={tw`w-13/16 text-xl mr-4`}
+            style={tw`w-13/16 text-xl mr-4 font-semibold`}
             numberOfLines={1}
             ellipsizeMode="tail"
             onPress={onPress}

@@ -1,6 +1,6 @@
 import ProgressCircle from "react-native-progress-circle"
 import { Ruta } from "../models/Ruta"
-import { View, Text, TouchableOpacity } from "react-native"
+import { Text, TouchableOpacity } from "react-native"
 import { tw } from "../lib/tailwind"
 import { useNavigate } from "react-router-native"
 
@@ -29,9 +29,9 @@ export const ProgressRuta: React.FC<Props> = ({ ruta }) => {
         shadowColor="#949494"
         bgColor="#fff"
       >
-        <Text style={tw`text-2xl`}>{percent}%</Text>
+        <Text style={tw`text-2xl `}>{percent}%</Text>
       </ProgressCircle>
-      <Text style={tw`flex-grow text-center text-xl w-2/3 ml-2`} numberOfLines={1}
+      <Text style={tw`flex-grow text-center text-xl w-2/3 ml-2 font-semibold`} numberOfLines={1}
             ellipsizeMode="tail">
         {ruta.titulo}
       </Text>

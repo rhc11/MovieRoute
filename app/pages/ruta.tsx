@@ -218,7 +218,7 @@ export const RutaPreview = () => {
             <Carousel infinite style={tw`h-48`}>
               {imagenes}
             </Carousel>
-            <Text style={tw`mx-6 my-4 text-xl `}>{ruta.titulo}</Text>
+            <Text style={tw`mx-6 my-4 text-xl font-semibold`}>{ruta.titulo}</Text>
 
             <View style={tw`flex-row items-center mx-6 mb-4`}>
               <Icon name="environment" color="black" />

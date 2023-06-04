@@ -196,7 +196,7 @@ export const AcabadaPreview = () => {
       <ScrollView style={tw`flex-1 z-0`} showsVerticalScrollIndicator={false}>
         {ruta ? (
           <>
-            <Text style={tw`mx-6 my-4 mt-16 text-xl `}>{ruta.titulo}</Text>
+            <Text style={tw`mx-6 my-4 mt-16 text-xl font-semibold`}>{ruta.titulo}</Text>
 
             <View style={tw`flex-row items-center mx-6 mb-4`}>
               <Icon name="environment" color="black" />

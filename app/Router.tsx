@@ -7,6 +7,7 @@ import { MisRutas } from "./pages/misRutas"
 import { RutaPreview } from "./pages/ruta"
 import { ParadaPreview } from "./pages/parada"
 import { AcabadaPreview } from "./pages/acabada"
+import { User } from "./pages/user"
 
 export const RoutesMap = {
   init: {
@@ -70,6 +71,13 @@ export const RoutesMap = {
     routeProps: {
       path: '/acabada/:rutaId/',
       element: <AcabadaPreview />
+    }
+  },
+  cuenta: {
+    pathBuilder: () => '/user',
+    routeProps: {
+      path: '/user',
+      element: <User />
     }
   },
 } as const
