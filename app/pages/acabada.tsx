@@ -10,6 +10,7 @@ import { Button, Carousel, Icon, Result, Steps } from "@ant-design/react-native"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { CarouselMovies } from "../components/carouselMovies"
 import { Completado } from "../models/Completado"
+import { Mapas } from "../components/mapa"
 
 const Step = Steps.Step
 
@@ -249,7 +250,8 @@ export const AcabadaPreview = () => {
               <CarouselMovies paradas={ruta.paradas} />
             </View>
 
-            <Text style={tw`m-6 text-lg`}>Recorrido</Text>
+            <Text style={tw`m-6 text-lg`}>Paradas</Text>
+            <Mapas paradas={ruta.paradas}/>
             <View style={tw`w-full mx-6 mb-12`}>
               <Steps direction="vertical">
                 {ruta.paradas.map((parada) => (

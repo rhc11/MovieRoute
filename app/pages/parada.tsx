@@ -12,12 +12,12 @@ import { useLocation, useNavigate, useParams } from "react-router-native"
 import { Ruta } from "../models/Ruta"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { AccessTokenKey, Session, jwtDecoded } from "../lib/jwtDecode"
+import { Session, jwtDecoded } from "../lib/jwtDecode"
 import { Button, Carousel, Icon, Steps, Result } from "@ant-design/react-native"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { CarouselMovies } from "../components/carouselMovies"
 import { Parada } from "../models/Parada"
 import { Camara } from "../components/camara"
+import { Mapas } from "../components/mapa"
 
 const Step = Steps.Step
 
@@ -30,6 +30,7 @@ export const ParadaPreview = () => {
   const [session, setSession] = useState<Session | null>(null)
   const [imagenes, setImagenes] = useState<Array<JSX.Element>>([])
   const [cameraVisible, setCameraVisible] = useState(false)
+  const [mapasKey, setMapasKey] = useState(Date.now())
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -54,6 +55,7 @@ export const ParadaPreview = () => {
       const rutaData: Ruta = responseRuta.data
 
       setRuta(rutaData)
+      setMapasKey(Date.now())
     } catch (error) {
       navigate(-1)
       console.error("Error al obtener las rutas:", error)
@@ -103,7 +105,7 @@ export const ParadaPreview = () => {
 
   const step = (stepParada: string) => {
     if (!parada || !ruta || !ruta.paradasCompletadas) return "error"
-    if (stepParada === parada.id) return "wait"
+    if (stepParada === parada.id) return "progress"
     if (
       ruta.paradasCompletadas.some((parada) => parada.paradaId === stepParada)
     )
@@ -233,7 +235,8 @@ export const ParadaPreview = () => {
               <CarouselMovies paradas={[{ parada: parada }]} />
             </View>
 
-            <Text style={tw`m-6 text-lg`}>Recorrido</Text>
+            <Text style={tw`m-6 text-lg`}>Paradas</Text>
+            <Mapas key={mapasKey} paradas={ruta.paradas} paradaActual={parada}/>
             <View style={tw`w-full mx-6 mb-12`}>
               <Steps direction="vertical">
                 {ruta.paradas.map((stop) => (
