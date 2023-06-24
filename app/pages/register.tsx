@@ -151,7 +151,7 @@ export const Register = () => {
               disabled={props.isSubmitting}
               type="primary"
               style={[
-                tw`bg-black border-black w-full rounded-none mt-12`,
+                tw`bg-black border-0 w-full rounded-none mt-12`,
                 { borderLeftWidth: 0, borderRightWidth: 0 },
               ]}
               activeStyle={[tw`bg-gray-700`]}
@@ -168,7 +168,6 @@ export const Register = () => {
           tw`bg-primary border-black w-full rounded-none mt-12`,
           { borderLeftWidth: 0, borderRightWidth: 0 },
         ]}
-        activeStyle={[tw`bg-white`]}
         onPress={() => navigate("/login")}
       >
         Iniciar sesión

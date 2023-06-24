@@ -193,7 +193,7 @@ export const ParadaPreview = () => {
                   style={tw`p-4`}
                 />
                 <Button
-                  style={tw`bg-primary text-black border-primary w-full rounded-none`}
+                  style={tw`bg-primary text-black border-0 w-full rounded-none`}
                   onPress={onNext}
                 >
                   Siguiente
@@ -201,7 +201,7 @@ export const ParadaPreview = () => {
               </>
             ) : (
               <Button
-                style={tw`bg-primary text-black border-primary w-full rounded-none`}
+                style={tw`bg-primary text-black border-0 w-full rounded-none`}
                 onPress={() => setCameraVisible(true)}
               >
                 <Icon name="camera" color="black" size="lg" />

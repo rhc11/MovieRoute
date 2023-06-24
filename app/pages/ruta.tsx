@@ -226,7 +226,7 @@ export const RutaPreview = () => {
             </View>
 
             <Button
-              style={tw`bg-primary text-black border-primary w-full rounded-none`}
+              style={tw`bg-primary text-black border-0 w-full rounded-none`}
               onPress={onPress}
             >
               Comenzar ruta
