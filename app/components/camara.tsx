@@ -2,9 +2,10 @@ import { Camera, CameraType } from "expo-camera"
 import { useRef, useState } from "react"
 import { tw } from "../lib/tailwind"
 import { Text, View } from "react-native"
-import { Button, Icon, Toast } from "@ant-design/react-native"
+import { Button, Icon } from "@ant-design/react-native"
 import * as MediaLibrary from "expo-media-library"
 import * as Location from "expo-location"
+import * as ImageManipulator from "expo-image-manipulator"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { AccessTokenKey } from "../lib/jwtDecode"
 import axios from "axios"
@@ -77,7 +78,13 @@ export const Camara: React.FC<Props> = ({
       })
 
       if (data?.uri) {
-        const fotoUrl = await MediaLibrary.createAssetAsync(data?.uri)
+        const rotatedData = await ImageManipulator.manipulateAsync(
+          data.uri,
+          [{ rotate: -90 }],
+          { compress: 1, format: ImageManipulator.SaveFormat.PNG }
+        )
+
+        const fotoUrl = await MediaLibrary.createAssetAsync(rotatedData?.uri)
         const token = await AsyncStorage.getItem(AccessTokenKey)
         const response = await axios.post(
           `http://192.168.1.57:8080/completado/`,

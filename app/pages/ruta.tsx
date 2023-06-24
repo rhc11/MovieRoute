@@ -241,11 +241,7 @@ export const RutaPreview = () => {
 
             <Text style={tw`mx-6 text-lg`}>Información</Text>
             <Text style={tw`mx-6 mt-2 mb-6 text-base`}>
-              {ruta.descripcion} Sed ut perspiciatis unde omnis iste natus error
-              sit voluptatem accusantium doloremque laudantium, totam rem
-              aperiam, eaque ipsa quae ab illo inventore veritatis et quasi
-              architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam
-              voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+              {ruta.descripcion}
             </Text>
 
             <View style={tw`w-full`}>

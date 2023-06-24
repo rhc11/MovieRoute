@@ -219,7 +219,7 @@ export const AcabadaPreview = () => {
 
             <Text style={tw`mx-6 text-lg mb-4`}>Aquí tienes tus fotos</Text>
 
-            <Carousel infinite style={tw`h-48`}>
+            <Carousel infinite style={tw`h-96`}>
               {fotos}
             </Carousel>
 
