@@ -8,7 +8,7 @@ export type Parada = {
   obras: string[]
 }
 
-type Coordenadas = {
+export type Coordenadas = {
   latitud: string
   altitud: string
 }

@@ -240,6 +240,7 @@ export const ParadaPreview = () => {
               <Camara
                 usuarioEmail={session ? session.email : ""}
                 paradaId={paradaId ? paradaId : ""}
+                paradaCoord={parada.coordenadas}
                 setFinish={setFinish}
                 setCameraVisible={setCameraVisible}
               />

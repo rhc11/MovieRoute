@@ -9,10 +9,12 @@ import * as ImageManipulator from "expo-image-manipulator"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { AccessTokenKey } from "../lib/jwtDecode"
 import axios from "axios"
+import { Coordenadas } from "../models/Parada"
 
 type Props = {
   usuarioEmail: string
   paradaId: string
+  paradaCoord: Coordenadas
   setFinish: React.Dispatch<React.SetStateAction<boolean>>
   setCameraVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -20,6 +22,7 @@ type Props = {
 export const Camara: React.FC<Props> = ({
   usuarioEmail,
   paradaId,
+  paradaCoord,
   setFinish,
   setCameraVisible,
 }) => {
@@ -64,6 +67,21 @@ export const Camara: React.FC<Props> = ({
     )
   }
 
+  const checkLocation = (lat: number, lon: number) => {
+    // Get latitude and longitude
+    const inputLat = lat.toString().split(".")
+    const inputLon = lon.toString().split(".")
+    const paradaLat = paradaCoord.latitud.split(".")
+    const paradaLon = paradaCoord.altitud.split(".")
+
+    // Check if latitude and longitude are valids
+    if (inputLat[0] !== paradaLat[0] || inputLat[1].substring(0, 3) !== paradaLat[1].substring(0, 3) ||
+        inputLon[0] !== paradaLon[0] || inputLon[1].substring(0, 3) !== paradaLon[1].substring(0, 3)) {
+      return false
+    }
+    return true
+  }
+
   // Function to take a picture
   const takePicutre = async () => {
     setOnTake(true)
@@ -75,6 +93,12 @@ export const Camara: React.FC<Props> = ({
       
       const { latitude, longitude } = location.coords
 
+      if(!checkLocation(latitude,longitude)) {
+        setOnFail(true)
+        setOnTake(false)
+        return
+      }
+
       // Take picture with camera
       const data = await camaraRef.current?.takePictureAsync({
         exif: true,
@@ -84,7 +108,7 @@ export const Camara: React.FC<Props> = ({
         },
       })
 
-      if (data?.uri) {
+      if (data?.uri && checkLocation(latitude,longitude)) {
         // Rotate and compress the image
         const rotatedData = await ImageManipulator.manipulateAsync(
           data.uri,
