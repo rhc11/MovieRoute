@@ -39,8 +39,8 @@ export const index = async (rutaInput: RutaModelInput) => {
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCuloNN4nAMp74toPaWvtDuT8Ji4-AVeqT4cFsrtxfhKYOfiiutDhR2kxoLkn7xviQqwU&usqp=CAU",
           ],
           obras: [
-            "https://www.themoviedb.org/t/p/w440_and_h660_face/gh2bmprLtUQ8oXCSluzfqaicyrm.jpg",
-            "https://www.themoviedb.org/t/p/w440_and_h660_face/1L5u2cdXfyMOFhiLYT0UBsjqZmC.jpg",
+            "Babylon",
+            "The last of us",
           ],
         },
         {
@@ -56,8 +56,8 @@ export const index = async (rutaInput: RutaModelInput) => {
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCuloNN4nAMp74toPaWvtDuT8Ji4-AVeqT4cFsrtxfhKYOfiiutDhR2kxoLkn7xviQqwU&usqp=CAU",
           ],
           obras: [
-            "https://www.themoviedb.org/t/p/w440_and_h660_face/fvqIv59EgwY7lJ5QfqSWpCxOFxK.jpg",
-            "https://www.themoviedb.org/t/p/w440_and_h660_face/fnxcYzU6EPzTNNKefEp0mEqTAlF.jpg",
+            "Babylon",
+            "The last of us",
           ],
         },
         {
@@ -73,8 +73,8 @@ export const index = async (rutaInput: RutaModelInput) => {
             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCuloNN4nAMp74toPaWvtDuT8Ji4-AVeqT4cFsrtxfhKYOfiiutDhR2kxoLkn7xviQqwU&usqp=CAU",
           ],
           obras: [
-            "https://www.themoviedb.org/t/p/w440_and_h660_face/xyHasySw0HQ4ndRWHvrpRTAsWXd.jpg",
-            "https://www.themoviedb.org/t/p/w440_and_h660_face/tNQWO6cNzQYCyvw36mUcAQQyf5F.jpg",
+            "Babylon",
+            "The last of us",
           ],
         },
       ]

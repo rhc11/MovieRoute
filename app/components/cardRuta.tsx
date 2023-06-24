@@ -21,6 +21,7 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
     ruta.favoritos[0] ? ruta.favoritos[0].id : undefined
   )
 
+  // Function to add the route to favorites
   const updateFav = async () => {
     const token = await AsyncStorage.getItem(AccessTokenKey)
     try {
@@ -42,6 +43,7 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
     }
   }
 
+  // Function to remove the route from favorites
   const deleteFav = async () => {
     const token = await AsyncStorage.getItem(AccessTokenKey)
     try {
@@ -66,6 +68,7 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
     }
   }
 
+  // Function triggered when the favorite button is pressed
   const onFav = async () => {
     fav ? await deleteFav() : await updateFav()
   }

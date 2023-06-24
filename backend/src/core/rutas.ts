@@ -18,6 +18,7 @@ export const getRutas = async (
         titulo: {
           contains: search || "",
         },
+        // Filters for favorite routes if onlyFavs and userEmail are specified
         favoritos:
           onlyFavs && userEmail
             ? {
@@ -26,6 +27,7 @@ export const getRutas = async (
                 },
               }
             : undefined,
+        // Filters for user routes if onlyUser and userEmail are specified
         usuarios:
           onlyUser && userEmail
             ? {
@@ -35,6 +37,7 @@ export const getRutas = async (
               }
             : undefined,
       },
+      // Orders the routes by title in ascending order
       orderBy: {
         titulo: 'asc'
       },
@@ -44,6 +47,7 @@ export const getRutas = async (
             parada: true,
           },
         },
+        // Includes favorite routes if userEmail is specified
         favoritos: userEmail
           ? {
               where: {
@@ -55,6 +59,7 @@ export const getRutas = async (
       },
     })
 
+    // If onlyUser and userEmail are specified, fetches completed routes
     if (onlyUser && userEmail) {
       const rutasConCompletados = await Promise.all(
         rutas.map(async (ruta) => {
@@ -95,6 +100,7 @@ export const getRuta = async (id: string, userEmail?: string) => {
             parada: true,
           },
         },
+        // Includes favorite routes if userEmail is specified
         favoritos: userEmail
           ? {
               where: {
@@ -106,6 +112,7 @@ export const getRuta = async (id: string, userEmail?: string) => {
       },
     })
 
+    // If userEmail is specified and a route is found, fetches completed routes
     if (userEmail && ruta) {
       const paradasCompletadas = await prisma.rutaParada.findMany({
         where: {

@@ -28,8 +28,10 @@ export const Register = () => {
 
   useEffect(() => {
     const checkSession = async () => {
+      // Check if a session exists
       const session: Session | null = await jwtDecoded()
       if (session) {
+        // Redirect to the home screen
         navigate("/home")
       }
     }
@@ -45,9 +47,10 @@ export const Register = () => {
   }: FormValues) => {
     try {
       if (password !== password2) {
+        // Throw an error if passwords don't match
         throw new Error("Las contraseñas no coinciden")
       }
-      // Send a POST request to the server with email and password data
+      // Send a POST request to the server with user registration data
       const response: ResponseLogin = await axios.post(
         `http://192.168.1.57:8080/usuario/`,
         {
@@ -56,19 +59,23 @@ export const Register = () => {
           nombre,
         }
       )
-      // Set the token in localStorage
+      // Set the token in AsyncStorage
       if (response.data) {
         await AsyncStorage.setItem(AccessTokenKey, response.data.token)
+        // Redirect to the home screen
         navigate("/home")
       }
     } catch (error) {
       // Show a modal dialog with an error message
-      Modal.alert("jajajajaj", "¡Ups! Usuario y/o contraseña erroneo")
+      Modal.alert("¡Ups!", "Usuario y/o contraseña incorrectos", [
+        { text: "Cerrar" },
+      ])
     }
   }
 
   return (
     <View style={tw`flex-1 items-center justify-center bg-primary`}>
+      {/* Display the logo */}
       <Image
         source={require("./../assets/logo.png")}
         alt="MovieRoute"
@@ -76,8 +83,11 @@ export const Register = () => {
         resizeMode="contain"
       />
 
+      {/* Formik form for registration */}
       <Formik
+        // Set initial form values
         initialValues={{ nombre: "", password: "", password2: "", email: "" }}
+        // Apply form validation schema
         validationSchema={Yup.object({
           nombre: Yup.string().required("Introduce el nombre"),
           password: Yup.string().required("Introduce la contraseña"),
@@ -86,6 +96,7 @@ export const Register = () => {
             .email("Email inválido")
             .required("Introduce el email"),
         })}
+        // Handle form submission
         onSubmit={async (values, formikActions) => {
           await onFinish(values)
 
@@ -94,6 +105,7 @@ export const Register = () => {
       >
         {(props) => (
           <View style={tw`w-full`}>
+            {/* Nombre TextInput */}
             <TextInput
               onChangeText={props.handleChange("nombre")}
               onBlur={props.handleBlur("nombre")}
@@ -102,11 +114,13 @@ export const Register = () => {
               placeholder="Nombre"
               style={[tw`bg-white w-full rounded-none h-12 pl-4`]}
             />
+            {/* Display nombre validation error */}
             {props.touched.nombre && props.errors.nombre ? (
               <Text style={[tw`text-rose-600 mt-2 ml-2`]}>
                 {props.errors.nombre}
               </Text>
             ) : null}
+            {/* Email TextInput */}
             <TextInput
               onChangeText={props.handleChange("email")}
               onBlur={props.handleBlur("email")}
@@ -114,11 +128,13 @@ export const Register = () => {
               placeholder="Correo electrónico"
               style={[tw`bg-white w-full rounded-none mt-12 h-12 pl-4`]}
             />
+            {/* Display email validation error */}
             {props.touched.email && props.errors.email ? (
               <Text style={[tw`text-rose-600 mt-2 ml-2`]}>
                 {props.errors.email}
               </Text>
             ) : null}
+            {/* Password TextInput */}
             <TextInput
               onChangeText={props.handleChange("password")}
               onBlur={props.handleBlur("password")}
@@ -127,11 +143,13 @@ export const Register = () => {
               style={[tw`bg-white w-full rounded-none mt-12 h-12 pl-4`]}
               secureTextEntry
             />
+            {/* Display password validation error */}
             {props.touched.password && props.errors.password ? (
               <Text style={[tw`text-rose-600 mt-2 ml-2`]}>
                 {props.errors.password}
               </Text>
             ) : null}
+            {/* Confirm Password TextInput */}
             <TextInput
               onChangeText={props.handleChange("password2")}
               onBlur={props.handleBlur("password2")}
@@ -140,11 +158,13 @@ export const Register = () => {
               style={[tw`bg-white w-full rounded-none mt-12 h-12 pl-4`]}
               secureTextEntry
             />
+            {/* Display password2 validation error */}
             {props.touched.password2 && props.errors.password2 ? (
               <Text style={[tw`text-rose-600 mt-2 ml-2`]}>
                 {props.errors.password2}
               </Text>
             ) : null}
+            {/* Register Button */}
             <Button
               onPress={() => props.handleSubmit()}
               loading={props.isSubmitting}
@@ -162,6 +182,7 @@ export const Register = () => {
         )}
       </Formik>
 
+      {/* Login Button */}
       <Button
         size="large"
         style={[
@@ -172,6 +193,7 @@ export const Register = () => {
       >
         Iniciar sesión
       </Button>
+      {/* StatusBar */}
       <StatusBar style="auto" />
     </View>
   )

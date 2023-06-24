@@ -50,13 +50,13 @@ export const createCompletado = async (completadoInput: CreateCompletadoModel) =
       return null
     }
 
-    // Extraer latitud y longitud de las cadenas de entrada
+    // Get latitude and longitude
     const inputLat = completadoInput.coords.latitude.toString().split(".")
     const inputLon = completadoInput.coords.longitude.toString().split(".")
     const paradaLat = parada.coordenadas.latitud.split(".")
     const paradaLon = parada.coordenadas.altitud.split(".")
 
-    // Comprobar si la latitud y la longitud son válidas
+    // Check if latitude and longitude are valids
     if (inputLat[0] !== paradaLat[0] || inputLat[1].substring(0, 3) !== paradaLat[1].substring(0, 3) ||
         inputLon[0] !== paradaLon[0] || inputLon[1].substring(0, 3) !== paradaLon[1].substring(0, 3)) {
       return null

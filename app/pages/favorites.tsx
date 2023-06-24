@@ -15,6 +15,7 @@ import axios from "axios"
 import { CardRuta } from "../components/cardRuta"
 
 export const Favorites = () => {
+  // Initialize state variables
   const [data, setData] = useState<Array<Ruta>>([])
   const [session, setSession] = useState<Session | null>(null)
   const [search, setSearch] = useState("")
@@ -22,6 +23,7 @@ export const Favorites = () => {
   const [noSkip, setNoSkip] = useState(-1)
   const [searchKey, setSearchKey] = useState(0)
 
+  // Function to fetch data from the server
   const fetchData = async (skip: number) => {
     if (skip === noSkip) return
     setLoading(true)
@@ -45,18 +47,21 @@ export const Favorites = () => {
     setLoading(false)
   }
 
+  // Function to cancel search and clear the search bar
   const cancelSearch = () => {
     Keyboard.dismiss()
     setSearchKey((prevKey) => prevKey + 1)
     handleSearch("")
   }
 
+  // Function to handle search input changes
   const handleSearch = (value: string) => {
     setData([])
     setNoSkip(-1)
     setSearch(value)
   }
 
+  // Function to handle scroll events and fetch more data if needed
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     let paddingToBottom = 10
     paddingToBottom += event.nativeEvent.layoutMeasurement.height
@@ -69,8 +74,10 @@ export const Favorites = () => {
     }
   }
 
+  // Effect hook to check user session on component mount
   useEffect(() => {
     const checkSession = async () => {
+      // Check if a session exists
       const getSession: Session | null = await jwtDecoded()
       setSession(getSession)
     }
@@ -78,14 +85,17 @@ export const Favorites = () => {
     checkSession()
   }, [])
 
+  // Effect hook to fetch data if a session exists
   useEffect(() => {
     if (session) {
       fetchData(0)
     }
   }, [search, session])
 
+  // Component rendering
   return (
     <View style={{ flex: 1, zIndex: 1 }}>
+      {/* SearchBar component */}
       <SearchBar
         key={searchKey}
         placeholder="Buscar ruta favorita"
@@ -94,6 +104,7 @@ export const Favorites = () => {
         onCancel={() => cancelSearch()}
       />
 
+      {/* ScrollView for displaying favorite routes */}
       <ScrollView
         style={tw`flex-1 z-0`}
         onScroll={handleScroll}
@@ -108,6 +119,7 @@ export const Favorites = () => {
             ))
           )}
         </View>
+        {/* Loading indicator or "No results" message */}
         {loading ? (
           <ActivityIndicator size="large" />
         ) : (
@@ -119,6 +131,7 @@ export const Favorites = () => {
         )}
       </ScrollView>
 
+      {/* Menu component */}
       <Menu />
     </View>
   )

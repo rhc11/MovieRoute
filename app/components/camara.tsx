@@ -23,6 +23,7 @@ export const Camara: React.FC<Props> = ({
   setFinish,
   setCameraVisible,
 }) => {
+  // Define state variables and hooks
   const [type, setType] = useState(CameraType.back)
   const [permission, requestPermission] = Camera.useCameraPermissions()
   const [flash, setFlash] = useState(Camera.Constants.FlashMode.off)
@@ -30,15 +31,17 @@ export const Camara: React.FC<Props> = ({
   const [onFail, setOnFail] = useState(false)
   const camaraRef = useRef<Camera>(null)
 
+  // If no camera permission, render nothing
   if (!permission) {
     return <View />
   }
 
+  // If camera permission not granted, request for permission
   if (!permission.granted) {
     return (
       <View style={tw`flex-1 justify-center`}>
         <Text style={tw`text-center mb-6`}>
-          Necesitamos permisos para acceder a la cámara
+          We need permission to access the camera
         </Text>
         <Button
           style={tw`bg-primary text-black border-primary w-full rounded-none`}
@@ -48,27 +51,31 @@ export const Camara: React.FC<Props> = ({
             Location.requestForegroundPermissionsAsync()
           }}
         >
-          Conceder permisos
+          Grant permissions
         </Button>
       </View>
     )
   }
 
+  // Function to toggle between front and back camera
   const toggleCameraType = () => {
     setType((current) =>
       current === CameraType.back ? CameraType.front : CameraType.back
     )
   }
 
+  // Function to take a picture
   const takePicutre = async () => {
     setOnTake(true)
     try {
+      // Get location data
       const location = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.High,
       })
       
       const { latitude, longitude } = location.coords
 
+      // Take picture with camera
       const data = await camaraRef.current?.takePictureAsync({
         exif: true,
         additionalExif: {
@@ -78,14 +85,20 @@ export const Camara: React.FC<Props> = ({
       })
 
       if (data?.uri) {
+        // Rotate and compress the image
         const rotatedData = await ImageManipulator.manipulateAsync(
           data.uri,
           [{ rotate: -90 }],
           { compress: 1, format: ImageManipulator.SaveFormat.PNG }
         )
 
+        // Save the image in the MediaLibrary
         const fotoUrl = await MediaLibrary.createAssetAsync(rotatedData?.uri)
+
+        // Get the JWT token from AsyncStorage
         const token = await AsyncStorage.getItem(AccessTokenKey)
+        
+        // Post the image data to the server
         const response = await axios.post(
           `http://192.168.1.57:8080/completado/`,
           {
@@ -117,6 +130,7 @@ export const Camara: React.FC<Props> = ({
     setOnTake(false)
   }
 
+  // Return the camera view with buttons for taking picture, changing camera type and changing flash mode
   return (
     <View style={tw`flex-1 z-0 bg-black`}>
       <View style={tw`flex-1 justify-center items-center`}>

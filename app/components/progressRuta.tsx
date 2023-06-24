@@ -4,21 +4,28 @@ import { Text, TouchableOpacity } from "react-native"
 import { tw } from "../lib/tailwind"
 import { useNavigate } from "react-router-native"
 
+// Define prop types for the component
 type Props = {
   ruta: Ruta
 }
 
+// Function component definition
 export const ProgressRuta: React.FC<Props> = ({ ruta }) => {
+  // If no stops have been completed, return nothing
   if (!ruta.paradasCompletadas) return <></>
 
+  // Hook to navigate to different routes
   const navigate = useNavigate()
 
+  // Calculate the percentage of stops that have been completed
   const percent = Math.round(
     (ruta.paradasCompletadas.length / ruta.paradas.length) * 100
   )
 
+  // Function to handle the press event
   const onPress = () => (navigate(`/home/${ruta.id}`))
 
+  // Return the TouchableOpacity component containing the progress circle and route title
   return (
     <TouchableOpacity style={tw`flex-row items-center m-6`} onPress={onPress}>
       <ProgressCircle

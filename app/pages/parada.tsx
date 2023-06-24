@@ -1,3 +1,4 @@
+// Import necessary modules and components
 import {
   ScrollView,
   View,
@@ -19,9 +20,12 @@ import { Parada } from "../models/Parada"
 import { Camara } from "../components/camara"
 import { Mapas } from "../components/mapa"
 
+// Create Steps.Step component for use
 const Step = Steps.Step
 
+// Define main component
 export const ParadaPreview = () => {
+  // Utilize hooks for state and navigation
   const { rutaId, paradaId } = useParams<{ rutaId: string; paradaId: string }>()
   const [parada, setParada] = useState<Parada | undefined>(undefined)
   const [ruta, setRuta] = useState<Ruta | undefined>(undefined)
@@ -34,16 +38,19 @@ export const ParadaPreview = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
+  // Define function to fetch data from the server
   const fetchData = async () => {
     try {
+      // Fetch data for specific stop
       const responseParada = await axios.get(
         `http://192.168.1.57:8080/parada/${paradaId}`
       )
 
+      // Set state with fetched stop data
       const paradaData: Parada = responseParada.data
-
       setParada(paradaData)
 
+      // Fetch data for specific route
       const responseRuta = await axios.get(
         `http://192.168.1.57:8080/ruta/${rutaId}`,
         {
@@ -54,16 +61,20 @@ export const ParadaPreview = () => {
       )
       const rutaData: Ruta = responseRuta.data
 
+      // Set state with fetched route data
       setRuta(rutaData)
       setMapasKey(Date.now())
     } catch (error) {
+      // Navigate back on error and log the error
       navigate(-1)
       console.error("Error al obtener las rutas:", error)
     }
   }
 
+  // Define useEffect hook to respond to changes in state
   useEffect(() => {
     if (parada && ruta) {
+      // Find stops that are different and not completed
       const paradasDiferentes = ruta.paradas
         .filter((p) => {
           return (
@@ -73,14 +84,17 @@ export const ParadaPreview = () => {
         })
         .map((p) => p.parada)
 
+      // Set next stop based on whether there are remaining different stops
       paradasDiferentes.length !== 0
         ? setNextParada(paradasDiferentes[0].id)
         : setNextParada(undefined)
 
+      // Set finish to true if current stop is completed
       if (ruta.paradasCompletadas?.some((pc) => pc.paradaId === parada.id)) {
         setFinish(true)
       }
 
+      // Generate image elements for each image of the stop
       const itemImagenes = parada.imagenes.map((imagen, index) => (
         <Image
           source={{ uri: imagen }}
@@ -91,10 +105,12 @@ export const ParadaPreview = () => {
         />
       ))
 
+      // Set state with generated image elements
       setImagenes(itemImagenes)
     }
   }, [parada, ruta])
 
+  // Define function to navigate to the next stop or finish
   const onNext = () => {
     nextParada
       ? navigate(`/home/${rutaId}/parada/${nextParada}`, {
@@ -103,6 +119,7 @@ export const ParadaPreview = () => {
       : navigate(`/acabada/${rutaId}`, { state: { forceRefresh: true } })
   }
 
+  // Define function to determine the status of a stop
   const step = (stepParada: string) => {
     if (!parada || !ruta || !ruta.paradasCompletadas) return "error"
     if (stepParada === parada.id) return "progress"
@@ -113,6 +130,7 @@ export const ParadaPreview = () => {
     return "wait"
   }
 
+  // Use useEffect hook to fetch the session on component mount
   useEffect(() => {
     const checkSession = async () => {
       const getSession: Session | null = await jwtDecoded()
@@ -121,6 +139,7 @@ export const ParadaPreview = () => {
     checkSession()
   }, [])
 
+  // Use useEffect hook to reset the finish state and fetch data on session change
   useEffect(() => {
     if (session) {
       setFinish(false)
@@ -128,12 +147,14 @@ export const ParadaPreview = () => {
     }
   }, [session])
 
+  // Use useEffect hook to reset the finish state and fetch data on location change
   useEffect(() => {
     setFinish(false)
     fetchData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location])
 
+  // Define main render of the component
   return (
     <View style={{ flex: 1, zIndex: 1 }}>
       <Button
@@ -177,7 +198,9 @@ export const ParadaPreview = () => {
             <Carousel infinite style={tw`h-48`}>
               {imagenes}
             </Carousel>
-            <Text style={tw`mx-6 my-4 text-xl font-semibold`}>{parada.titulo}</Text>
+            <Text style={tw`mx-6 my-4 text-xl font-semibold`}>
+              {parada.titulo}
+            </Text>
 
             <View style={tw`flex-row items-center mx-6 mb-4`}>
               <Icon name="environment" color="black" />
@@ -214,9 +237,9 @@ export const ParadaPreview = () => {
               visible={cameraVisible}
               onRequestClose={() => setCameraVisible(false)}
             >
-              <Camara 
-                usuarioEmail={session ? session.email : ''}
-                paradaId={paradaId ? paradaId : ''}
+              <Camara
+                usuarioEmail={session ? session.email : ""}
+                paradaId={paradaId ? paradaId : ""}
                 setFinish={setFinish}
                 setCameraVisible={setCameraVisible}
               />
@@ -232,7 +255,11 @@ export const ParadaPreview = () => {
             </View>
 
             <Text style={tw`m-6 text-lg`}>Paradas</Text>
-            <Mapas key={mapasKey} paradas={ruta.paradas} paradaActual={parada}/>
+            <Mapas
+              key={mapasKey}
+              paradas={ruta.paradas}
+              paradaActual={parada}
+            />
             <View style={tw`w-full mx-6 mb-12`}>
               <Steps direction="vertical">
                 {ruta.paradas.map((stop) => (

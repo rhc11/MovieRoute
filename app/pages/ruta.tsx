@@ -11,9 +11,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { CarouselMovies } from "../components/carouselMovies"
 import { Mapas } from "../components/mapa"
 
+// Create Steps.Step component for use
 const Step = Steps.Step
 
 export const RutaPreview = () => {
+  // Utilize hooks for state and navigation
   const { rutaId } = useParams<{ rutaId: string }>()
   const [ruta, setRuta] = useState<Ruta | undefined>(undefined)
   const navigate = useNavigate()
@@ -22,6 +24,7 @@ export const RutaPreview = () => {
   const [fav, setFav] = useState<string | undefined>(undefined)
   const [nextParada, setNextParada] = useState<string | undefined>(undefined)
 
+  // Function to fetch the route from the server
   const fetchData = async () => {
     try {
       const response = await axios.get(
@@ -42,6 +45,7 @@ export const RutaPreview = () => {
     }
   }
 
+  // Function triggered when the route start button is pressed
   const onPress = async () => {
     try {
       const token = await AsyncStorage.getItem(AccessTokenKey)
@@ -67,6 +71,7 @@ export const RutaPreview = () => {
       : navigate(`/home/${rutaId}`)
   }
 
+  // Retrieves the route stops, images, and checks if the route is a favorite
   useEffect(() => {
     if (ruta) {
       const paradasDiferentes = ruta.paradas
@@ -101,6 +106,7 @@ export const RutaPreview = () => {
     }
   }, [ruta])
 
+  // Function to add the route to favorites
   const updateFav = async () => {
     const token = await AsyncStorage.getItem(AccessTokenKey)
     try {
@@ -125,6 +131,7 @@ export const RutaPreview = () => {
     }
   }
 
+  // Function to remove the route from favorites
   const deleteFav = async () => {
     const token = await AsyncStorage.getItem(AccessTokenKey)
     try {
@@ -149,10 +156,12 @@ export const RutaPreview = () => {
     }
   }
 
+  // Function triggered when the favorite button is pressed
   const onFav = async () => {
     fav ? await deleteFav() : await updateFav()
   }
 
+  // Checks the current user's session upon component mounting
   useEffect(() => {
     const checkSession = async () => {
       const getSession: Session | null = await jwtDecoded()
@@ -161,12 +170,14 @@ export const RutaPreview = () => {
     checkSession()
   }, [])
 
+  // Fetches the route from the server once the user's session is set
   useEffect(() => {
     if (session) {
       fetchData()
     }
   }, [session])
 
+  // Route preview component
   return (
     <View style={{ flex: 1, zIndex: 1 }}>
       <Button

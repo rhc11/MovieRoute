@@ -9,6 +9,7 @@ import { ParadaPreview } from "./pages/parada"
 import { AcabadaPreview } from "./pages/acabada"
 import { User } from "./pages/user"
 
+// Defining route mapping
 export const RoutesMap = {
   init: {
     pathBuilder: () => "/",
@@ -82,10 +83,13 @@ export const RoutesMap = {
   },
 } as const
 
+// Defining Router component
 export const Router = () => {
   return (
+    // Wrapping the routes in a NativeRouter component to enable routing in a react-native application
     <NativeRouter>
       <Routes>
+        {/* Iterating over the values in RoutesMap and rendering a Route component for each one */}
         {Object.values(RoutesMap).map((route) => (
           <Route {...route.routeProps} key={route.routeProps.path} />
         ))}

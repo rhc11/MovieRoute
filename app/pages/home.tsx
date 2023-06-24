@@ -14,7 +14,9 @@ import { Session, jwtDecoded } from "../lib/jwtDecode"
 import axios from "axios"
 import { CardRuta } from "../components/cardRuta"
 
+// Define the component
 export const Home = () => {
+  // Initialize state variables
   const [data, setData] = useState<Array<Ruta>>([])
   const [session, setSession] = useState<Session | null>(null)
   const [search, setSearch] = useState("")
@@ -22,6 +24,7 @@ export const Home = () => {
   const [noSkip, setNoSkip] = useState(-1)
   const [searchKey, setSearchKey] = useState(0)
 
+  // Function to fetch data from the server
   const fetchData = async (skip: number) => {
     if (skip === noSkip) return
     setLoading(true)
@@ -40,18 +43,21 @@ export const Home = () => {
     setLoading(false)
   }
 
+  // Function to cancel search and clear the search bar
   const cancelSearch = () => {
     Keyboard.dismiss()
     setSearchKey(prevKey => prevKey + 1)
     handleSearch('')
   }
 
+  // Function to handle search input changes
   const handleSearch = (value: string) => {
     setData([])
     setNoSkip(-1)
     setSearch(value)
   }
 
+  // Function to handle scroll events and fetch more data if needed
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     let paddingToBottom = 10
     paddingToBottom += event.nativeEvent.layoutMeasurement.height
@@ -70,14 +76,17 @@ export const Home = () => {
 
   useEffect(() => {
     const checkSession = async () => {
+      // Check if a session exists
       const getSession: Session | null = await jwtDecoded()
       setSession(getSession)
     }
     checkSession()
   }, [])
 
+  // Component rendering
   return (
     <View style={{ flex: 1, zIndex: 1 }}>
+      {/* SearchBar component */}
       <SearchBar
         key={searchKey}
         placeholder="Buscar ruta"
@@ -86,6 +95,7 @@ export const Home = () => {
         onCancel={() => cancelSearch()}
       />
 
+      {/* ScrollView for displaying routes */}
       <ScrollView style={tw`flex-1 z-0`} onScroll={handleScroll} showsVerticalScrollIndicator={false}>
         <View style={tw`flex-1 items-center justify-center p-3 pb-20`}>
           {data.length === 0 ? (
@@ -94,6 +104,7 @@ export const Home = () => {
             data.map((ruta, index) => <CardRuta key={index} ruta={ruta} session={session} />)
           )}
         </View>
+        {/* Loading indicator or "No results" message */}
         {loading ? (
           <ActivityIndicator size="large" />
         ) : (
@@ -105,6 +116,7 @@ export const Home = () => {
         )}
       </ScrollView>
 
+      {/* Menu component */}
       <Menu />
     </View>
   )

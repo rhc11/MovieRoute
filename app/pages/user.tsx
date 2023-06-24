@@ -9,11 +9,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { AccessTokenKey } from "../lib/jwtDecode"
 
 export const User = () => {
+  // Get the navigation function from react-router
   const navigate = useNavigate()
+
+  // State to keep track of active accordion sections
   const [activeSections, setActiveSections] = useState<
     Array<number> | undefined
   >(undefined)
 
+  // Function to update active accordion sections state
   const onChange = (activeSection: Array<number>) => {
     setActiveSections(activeSection)
   }
