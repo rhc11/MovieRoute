@@ -155,7 +155,7 @@ export const Register = () => {
               onChangeText={props.handleChange("password2")}
               onBlur={props.handleBlur("password2")}
               value={props.values.password2}
-              placeholder="Contraseña"
+              placeholder="Repetir contraseña"
               style={[tw`bg-white w-full rounded-none mt-12 h-12 pl-4`]}
               secureTextEntry
             />
