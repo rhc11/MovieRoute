@@ -108,7 +108,7 @@ export const Camara: React.FC<Props> = ({
         },
       })
 
-      if (data?.uri && checkLocation(latitude,longitude)) {
+      if (data?.uri) {
         // Rotate and compress the image
         const rotatedData = await ImageManipulator.manipulateAsync(
           data.uri,
