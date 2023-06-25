@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { AccessTokenKey } from "../lib/jwtDecode"
 import axios from "axios"
 import { Coordenadas } from "../models/Parada"
+import { API_URL } from '@env'
 
 type Props = {
   usuarioEmail: string
@@ -124,7 +125,7 @@ export const Camara: React.FC<Props> = ({
         
         // Post the image data to the server
         const response = await axios.post(
-          `http://192.168.1.57:8080/completado/`,
+          `${API_URL}/completado/`,
           {
             usuarioEmail,
             paradaId,

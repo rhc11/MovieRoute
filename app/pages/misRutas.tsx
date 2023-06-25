@@ -14,6 +14,7 @@ import { Ruta } from "../models/Ruta"
 import { Session, jwtDecoded } from "../lib/jwtDecode"
 import axios from "axios"
 import { ProgressRuta } from "../components/progressRuta"
+import { API_URL } from '@env'
 
 // Define the component
 export const MisRutas = () => {
@@ -32,7 +33,7 @@ export const MisRutas = () => {
     try {
       setNoSkip(data.length)  // Set the skip to current data length
       // Make API call
-      const response = await axios.get(`http://192.168.1.57:8080/ruta`, {
+      const response = await axios.get(`${API_URL}/ruta`, {
         params: {
           skip,
           search,

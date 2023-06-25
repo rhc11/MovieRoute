@@ -13,6 +13,7 @@ import { Ruta } from "../models/Ruta"
 import { Session, jwtDecoded } from "../lib/jwtDecode"
 import axios from "axios"
 import { CardRuta } from "../components/cardRuta"
+import { API_URL } from '@env'
 
 // Define the component
 export const Home = () => {
@@ -30,7 +31,7 @@ export const Home = () => {
     setLoading(true)
     try {
       setNoSkip(data.length)
-      const response = await axios.get(`http://192.168.1.57:8080/ruta`, {
+      const response = await axios.get(`${API_URL}/ruta`, {
         params: { skip, search, userEmail: session ? session.email : "" },
       })
 

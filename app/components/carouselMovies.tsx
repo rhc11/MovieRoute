@@ -8,6 +8,7 @@ import {
 } from "react-native"
 import { tw } from "../lib/tailwind"
 import axios from "axios"
+import { TMDB_TOKEN } from '@env'
 
 // Type definition for the component's props
 type Props = {
@@ -47,7 +48,7 @@ export const CarouselMovies: React.FC<Props> = ({ paradas }) => {
             headers: {
               accept: "application/json",
               Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkOTNkMWE0YjhkYTRhMjE1ZDMzZDdhYjkxYTIzYTY4NyIsInN1YiI6IjY0N2EwN2VlZTMyM2YzMDE0ODE1ZmUwZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.texCY06QkJ_qH8O6MaDWwAO-OiEYy__FmMVY3d9hTo8",
+                `Bearer ${TMDB_TOKEN}`,
             },
           }
         )

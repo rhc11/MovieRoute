@@ -8,6 +8,7 @@ import { useState } from "react"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useNavigate } from "react-router-native"
+import { API_URL } from '@env'
 
 type Props = {
   ruta: Ruta
@@ -26,7 +27,7 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
     const token = await AsyncStorage.getItem(AccessTokenKey)
     try {
       const response = await axios.post(
-        `http://192.168.1.57:8080/usuarioFavorito`,
+        `${API_URL}/usuarioFavorito`,
         { usuarioEmail: session ? session.email : "", rutaId: ruta.id },
         {
           headers: {
@@ -52,7 +53,7 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
       }
 
       const response = await axios.delete(
-        `http://192.168.1.57:8080/usuarioFavorito/${fav}`,
+        `${API_URL}/usuarioFavorito/${fav}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

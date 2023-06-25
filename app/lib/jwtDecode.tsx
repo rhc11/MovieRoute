@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import jwt_decode from "jwt-decode"
+import { ACCESS_TOKEN } from '@env'
 
-export const AccessTokenKey = "accessToken"
+export const AccessTokenKey = ACCESS_TOKEN
 
 export type Session = {
   email: string

@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { CarouselMovies } from "../components/carouselMovies"
 import { Completado } from "../models/Completado"
 import { Mapas } from "../components/mapa"
+import { API_URL } from '@env'
 
 const Step = Steps.Step
 // Define the component
@@ -32,7 +33,7 @@ export const AcabadaPreview = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `http://192.168.1.57:8080/ruta/${rutaId}`,
+        `${API_URL}/ruta/${rutaId}`,
         {
           params: {
             userEmail: session ? session.email : "",
@@ -45,7 +46,7 @@ export const AcabadaPreview = () => {
       setRuta(rutaData)
 
       const responseCompletado = await axios.get(
-        `http://192.168.1.57:8080/completado`,
+        `${API_URL}/completado`,
         {
           params: {
             userEmail: session ? session.email : "",
@@ -93,7 +94,7 @@ export const AcabadaPreview = () => {
     const token = await AsyncStorage.getItem(AccessTokenKey)
     try {
       const response = await axios.post(
-        `http://192.168.1.57:8080/usuarioFavorito`,
+        `${API_URL}/usuarioFavorito`,
         {
           usuarioEmail: session ? session.email : "",
           rutaId: ruta ? ruta.id : undefined,
@@ -122,7 +123,7 @@ export const AcabadaPreview = () => {
       }
 
       const response = await axios.delete(
-        `http://192.168.1.57:8080/usuarioFavorito/${fav}`,
+        `${API_URL}/usuarioFavorito/${fav}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

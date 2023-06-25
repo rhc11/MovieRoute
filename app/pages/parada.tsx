@@ -19,6 +19,7 @@ import { CarouselMovies } from "../components/carouselMovies"
 import { Parada } from "../models/Parada"
 import { Camara } from "../components/camara"
 import { Mapas } from "../components/mapa"
+import { API_URL } from '@env'
 
 // Create Steps.Step component for use
 const Step = Steps.Step
@@ -43,7 +44,7 @@ export const ParadaPreview = () => {
     try {
       // Fetch data for specific stop
       const responseParada = await axios.get(
-        `http://192.168.1.57:8080/parada/${paradaId}`
+        `${API_URL}/parada/${paradaId}`
       )
 
       // Set state with fetched stop data
@@ -52,7 +53,7 @@ export const ParadaPreview = () => {
 
       // Fetch data for specific route
       const responseRuta = await axios.get(
-        `http://192.168.1.57:8080/ruta/${rutaId}`,
+        `${API_URL}/ruta/${rutaId}`,
         {
           params: {
             userEmail: session ? session.email : "",

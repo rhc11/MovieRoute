@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-native"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useEffect } from "react"
+import { API_URL } from '@env'
 
 type FormValues = {
   email: string
@@ -41,7 +42,7 @@ export const Login = () => {
     try {
       // Send a POST request to the server with email and password data
       const response: ResponseLogin = await axios.post(
-        `http://192.168.1.57:8080/login`,
+        `${API_URL}/login`,
         {
           email,
           password,
