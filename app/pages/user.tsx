@@ -88,18 +88,18 @@ export const User = () => {
     }
   }
 
-  // Define the onChangePassword function to handle form submission
+  // Define the onDelete function to handle form submission
   const onDelete = async ({ email }: FormValuesDelete) => {
     try {
       console.log(email, "   ", session?.email)
       if (email !== session?.email) {
-        // Throw an error if passwords don't match
+        // Throw an error if emails don't match
         throw new Error("El email no es correcto")
       }
 
       const token = await AsyncStorage.getItem(AccessTokenKey)
 
-      // Send a UPDATE request to the server with user registration data
+      // Send a Delete request to the server with user data
       const response = await axios.delete(
         `${API_URL}/usuario/${session.email}`,
         {
@@ -108,7 +108,7 @@ export const User = () => {
           },
         }
       )
-      // Set the token in AsyncStorage
+
       if (response.data) {
         await AsyncStorage.setItem(AccessTokenKey, "")
         navigate("/login")
