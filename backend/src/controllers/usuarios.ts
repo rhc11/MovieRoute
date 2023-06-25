@@ -7,7 +7,7 @@ import {
   updateUsuario,
   deleteUsuario,
 } from "../core/usuarios"
-import { UsuarioModelInput } from "../models/usuarios"
+import { UsuarioModelInput, UsuarioPassword } from "../models/usuarios"
 
 export const getUsuariosController: Handler = async (_req, res) => {
   const response = await getUsuarios()
@@ -48,17 +48,17 @@ export const createUsuarioController: Handler = async (req, res) => {
   return res.status(200).json(response)
 }
 
-export const updateUsuarioController: RequestHandler<{ id: string }> = async (
+export const updateUsuarioController: Handler = async (
   req,
   res
 ) => {
-  const validatedBody = UsuarioModelInput.safeParse(req.body)
+  const validatedBody = UsuarioPassword.safeParse(req.body)
 
   if (!validatedBody.success) {
     return res.status(400).send(validatedBody.error.issues)
   }
 
-  const response = await updateUsuario(validatedBody.data, req.params.id)
+  const response = await updateUsuario(validatedBody.data)
 
   if (!response) {
     return res.status(404).send()

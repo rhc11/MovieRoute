@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client"
-import { UsuarioModelInput } from "../models/usuarios"
+import { UsuarioModelInput, UsuarioPassword } from "../models/usuarios"
 import * as bcrypt from "bcrypt"
 import { createToken } from "../helpers/createToken"
 
@@ -54,16 +54,23 @@ export const createUsuario = async (usuarioInput: UsuarioModelInput) => {
   }
 }
 
-export const updateUsuario = async (usuario: UsuarioModelInput, id: string) => {
+export const updateUsuario = async (usuario: UsuarioPassword) => {
   try {
+    const salt = await bcrypt.genSalt(10)
+    const newPassword: string = await bcrypt.hash(usuario.password, salt)
+
     const usuarioUpdated = await prisma.usuario.update({
       where: {
-        id
+        email: usuario.email
       },
-      data: usuario
+      data: {
+        password: newPassword
+      }
     })
 
-    return usuarioUpdated
+    const token = await createToken(usuarioUpdated)
+
+    return { ...usuarioUpdated, token}
   } catch (error) {
     throw error
   }
