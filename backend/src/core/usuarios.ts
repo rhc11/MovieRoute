@@ -78,9 +78,24 @@ export const updateUsuario = async (usuario: UsuarioPassword) => {
 
 export const deleteUsuario = async (id: string) => {
   try {
+    await prisma.usuarioRuta.deleteMany({
+      where: {
+        usuarioEmail: id,
+      },
+    })
+    await prisma.usuarioFavorito.deleteMany({
+      where: {
+        usuarioEmail: id,
+      },
+    })
+    await prisma.completado.deleteMany({
+      where: {
+        usuarioEmail: id,
+      },
+    })
     const usuario = await prisma.usuario.delete({
       where: {
-        id,
+        email: id,
       },
     })
 
