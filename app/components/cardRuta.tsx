@@ -8,7 +8,7 @@ import { useState } from "react"
 import axios from "axios"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { useNavigate } from "react-router-native"
-import { API_URL } from '@env'
+import { API_URL } from "@env"
 
 type Props = {
   ruta: Ruta
@@ -17,7 +17,7 @@ type Props = {
 
 export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
   const navigate = useNavigate()
-  
+
   const [fav, setFav] = useState<string | undefined>(
     ruta.favoritos[0] ? ruta.favoritos[0].id : undefined
   )
@@ -52,14 +52,11 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
         return
       }
 
-      const response = await axios.delete(
-        `${API_URL}/usuarioFavorito/${fav}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      const response = await axios.delete(`${API_URL}/usuarioFavorito/${fav}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
 
       if (response.data) {
         setFav(undefined)
@@ -74,7 +71,7 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
     fav ? await deleteFav() : await updateFav()
   }
 
-  const onPress = () => (navigate(`/home/${ruta.id}`))
+  const onPress = () => navigate(`/home/${ruta.id}`)
 
   return (
     <View style={tw`rounded-lg border-2 border-black m-2 w-full`}>
@@ -104,17 +101,15 @@ export const CardRuta: React.FC<Props> = ({ ruta, session }) => {
           >
             {ruta.titulo}
           </Text>
-
-          {fav ? (
-            <Button style={tw`border-black rounded-full bg-primary h-10 w-10 p-0`} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
-              <Icon name="star" color='black'/>
-            </Button>
-            
-          ) : (
-            <Button style={tw`border-black rounded-full bg-white h-10 w-10 p-0`} onPress={onFav} activeStyle={[tw`bg-gray-700`]}>
-              <Icon name="star" color="black"/>
-            </Button>
-          )}
+          <Button
+            style={tw`border-black rounded-full ${
+              fav ? "bg-primary" : "bg-white"
+            } h-10 w-10 p-0`}
+            onPress={onFav}
+            activeStyle={[tw`bg-gray-700`]}
+          >
+            <Icon name="star" color="black" />
+          </Button>
         </View>
         <View style={tw`flex-row items-center mt-1`}>
           <Icon name="environment" color="black" />
