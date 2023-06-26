@@ -1,4 +1,4 @@
-import MapView, { Marker } from "react-native-maps"
+import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps"
 import { Parada } from "../models/Parada"
 import React, { useEffect, useState } from "react"
 import { tw } from "../lib/tailwind"
@@ -62,6 +62,7 @@ export const Mapas: React.FC<Props> = ({ paradas, paradaActual }) => {
   // Render the map
   return (
     <MapView
+      provider={PROVIDER_GOOGLE}
       style={tw`w-full h-96 mb-6`}
       initialRegion={{
         latitude: paradaActual

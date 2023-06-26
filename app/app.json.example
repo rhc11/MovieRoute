@@ -24,7 +24,7 @@
       },
       "config": {
         "googleMaps": {
-          "apiKey": "AIzaSyC_GZTPSoGvzdqCtvcSCrXvcqm6SR6qDbw"
+          "apiKey": "ASK_ME"
         }
       },
       "package": "com.ruben171944.app",
