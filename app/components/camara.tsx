@@ -1,5 +1,5 @@
 import { Camera, CameraType } from "expo-camera"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { tw } from "../lib/tailwind"
 import { Text, View } from "react-native"
 import { Button, Icon } from "@ant-design/react-native"
@@ -35,31 +35,20 @@ export const Camara: React.FC<Props> = ({
   const [onFail, setOnFail] = useState(false)
   const camaraRef = useRef<Camera>(null)
 
-  // If no camera permission, render nothing
-  if (!permission) {
-    return <View />
-  }
+  useEffect(() => {
+    const checkPermission = async () => {
+      // Request permission to access the location, camera and media
+      const statusLocation = (await Location.requestForegroundPermissionsAsync()).status
+      const statusCamera = (await Camera.requestCameraPermissionsAsync()).status
+      const statusMedia = (await MediaLibrary.requestPermissionsAsync()).status
 
-  // If camera permission not granted, request for permission
-  if (!permission.granted) {
-    return (
-      <View style={tw`flex-1 justify-center`}>
-        <Text style={tw`text-center mb-6`}>
-          We need permission to access the camera
-        </Text>
-        <Button
-          style={tw`bg-primary text-black border-primary w-full rounded-none`}
-          onPress={() => {
-            requestPermission
-            MediaLibrary.requestPermissionsAsync()
-            Location.requestForegroundPermissionsAsync()
-          }}
-        >
-          Grant permissions
-        </Button>
-      </View>
-    )
-  }
+      // Return if permission is not granted
+      if (statusLocation !== "granted" || statusCamera !== "granted" || statusMedia !== "granted") {
+        return
+      }
+    }
+    checkPermission()
+  }, [])
 
   // Function to toggle between front and back camera
   const toggleCameraType = () => {

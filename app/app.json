@@ -1,15 +1,15 @@
 {
   "expo": {
     "name": "MovieRoute",
-    "slug": "MovieRoute",
+    "slug": "app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo-alt.png",
       "resizeMode": "contain",
-      "backgroundColor": "#FFCD6B"
+      "backgroundColor": "#000000"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,17 +20,14 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFCD6B"
+        "backgroundColor": "#efeff4"
       },
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyC_GZTPSoGvzdqCtvcSCrXvcqm6SR6qDbw"
         }
       },
-      "package": "com.ruben171944.app",
-      "androidStatusBar": {
-        "backgroundColor": "#efeff4"
-      }
+      "package": "com.ruben171944.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -34,7 +34,6 @@ export const getCompletadoController: RequestHandler<{ id: string }> = async (
 }
 
 export const createCompletadoController: Handler = async (req, res) => {
-  console.log(req.body)
   const validatedBody = CreateCompletadoModel.safeParse(req.body)
 
   if (!validatedBody.success) {

@@ -91,7 +91,6 @@ export const User = () => {
   // Define the onDelete function to handle form submission
   const onDelete = async ({ email }: FormValuesDelete) => {
     try {
-      console.log(email, "   ", session?.email)
       if (email !== session?.email) {
         // Throw an error if emails don't match
         throw new Error("El email no es correcto")
