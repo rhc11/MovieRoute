@@ -62,6 +62,9 @@ export const Mapas: React.FC<Props> = ({ paradas, paradaActual }) => {
   // Render the map
   return (
     <MapView
+      key={paradaActual ? paradaActual.id : todasLasParadas.flatMap((parada) => parada.id).join('_')}
+      showsUserLocation={true}
+      followsUserLocation={true}
       provider={PROVIDER_GOOGLE}
       style={tw`w-full h-96 mb-6`}
       initialRegion={{
@@ -75,9 +78,6 @@ export const Mapas: React.FC<Props> = ({ paradas, paradaActual }) => {
         longitudeDelta: paradaActual ? 0.09 : 1,
       }}
     >
-      <Marker coordinate={current} title="Ubicación Actual">
-        <Icon name="aim" color="#FFCD6B" size="lg" />
-      </Marker>
       {todasLasParadas.map((parada, index) => {
         return (
           <Marker

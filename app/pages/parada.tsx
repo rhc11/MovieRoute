@@ -35,7 +35,6 @@ export const ParadaPreview = () => {
   const [session, setSession] = useState<Session | null>(null)
   const [imagenes, setImagenes] = useState<Array<JSX.Element>>([])
   const [cameraVisible, setCameraVisible] = useState(false)
-  const [mapasKey, setMapasKey] = useState(Date.now())
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -64,7 +63,6 @@ export const ParadaPreview = () => {
 
       // Set state with fetched route data
       setRuta(rutaData)
-      setMapasKey(Date.now())
     } catch (error) {
       // Navigate back on error and log the error
       navigate(-1)
@@ -258,7 +256,6 @@ export const ParadaPreview = () => {
 
             <Text style={tw`m-6 text-lg`}>Paradas</Text>
             <Mapas
-              key={mapasKey}
               paradas={ruta.paradas}
               paradaActual={parada}
             />
